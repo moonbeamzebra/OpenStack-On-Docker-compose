@@ -1,0 +1,149 @@
+.PHONY: all
+all: install_keystone
+
+.PHONY: build_openstack_base
+build_openstack_base: 
+    sudo makepp -C dockerfiles/openstack_base build_image
+
+.PHONY: build_mariadb
+build_mariadb: 
+    sudo makepp -C dockerfiles/mariadb build_image
+
+.PHONY: install_mariadb
+install_mariadb: build_mariadb install_rabbitmq
+    sudo docker run -d -p 3306:3306 \
+                       --hostname mariadb \
+                       --name openstack-mariadb \
+                       --env-file ./env.list \
+                       -v /var/lib/openstack-mariadb/mysql:/var/lib/mysql \
+                       openstack-mariadb
+    sleep 15
+
+.PHONY: install_rabbitmq
+install_rabbitmq: 
+    sudo docker run -d -p 5672:5672 \
+                       --hostname rabbitmq \
+                       --env-file ./env.list \
+                       --name openstack-rabbitmq \
+                       rabbitmq:3
+
+.PHONY: build_mongodb
+build_mongodb:
+    sudo makepp -C dockerfiles/mongodb build_image
+
+.PHONY: install_mongodb
+install_mongodb: build_mongodb
+    sudo docker run -d -p 27017:27017 --hostname mongodb --env-file ./env.list  --name openstack-mongodb openstack-mongodb
+    sleep 60
+    sudo docker exec -it openstack-mongodb bash ./init.sh
+
+
+.PHONY: build_keystone
+build_keystone: build_openstack_base
+    sudo makepp -C dockerfiles/keystone build_image
+
+.PHONY: install_keystone
+install_keystone: build_keystone 
+    sudo docker run -d --hostname keystone \
+                       --name openstack-keystone \
+                       -p 5000:5000 \
+                       -p 35357:35357 \
+                       --env-file ./env.list \
+                       openstack-keystone
+
+PHONY: build_glance
+build_glance: build_openstack_base
+    sudo makepp -C dockerfiles/glance build_image
+
+.PHONY: install_glance
+install_glance: build_glance 
+    sudo docker run -d --hostname glance \
+                       --name openstack-glance \
+                       -p 9292:9292 \
+                       --env-file ./env.list \
+                       openstack-glance
+
+
+PHONY: build_nova
+build_nova: build_openstack_base
+    sudo makepp -C dockerfiles/nova build_image
+
+# Use of privileged;  see https://github.com/docker/docker/issues/4424
+.PHONY: install_nova
+install_nova: build_nova
+    sudo docker run -d --hostname nova \
+                       --name openstack-nova \
+                       -privileged \
+                       -p 8774:8774 \
+                       -p 8775:8775 \
+                       -p 6080:6080 \
+                       --env-file ./env.list \
+                       openstack-nova
+
+
+PHONY: build_neutron
+build_neutron: build_openstack_base
+    sudo makepp -C dockerfiles/neutron build_image
+
+# see:
+# https://blog.sebastian-daschner.com/entries/docker0_network_connection
+# http://stackoverflow.com/questions/27563460/let-two-containers-getting-linked-to-eachother
+.PHONY: install_neutron
+install_neutron: build_neutron 
+    sudo docker run -d --hostname neutron \
+                       --name openstack-neutron \
+                       -p 9696:9696 \
+                       --env-file ./env.list \
+                       openstack-neutron
+
+.PHONY: build_heat
+build_heat: build_openstack_base
+    sudo makepp -C dockerfiles/heat build_image
+
+.PHONY: install_heat
+install_heat: build_heat install_mariadb install_rabbitmq install_keystone
+    sudo docker run -d --hostname heat \
+                       --name openstack-heat \
+                       -p 8000:8000 \
+                       -p 8004:8004 \
+                       --env-file ./env.list \
+                       openstack-heat
+
+.PHONY: build_ceilometer
+build_ceilometer: build_openstack_base
+    sudo makepp -C dockerfiles/ceilometer build_image
+
+.PHONY: install_ceilometer
+install_ceilometer: build_ceilometer install_rabbitmq install_mongodb install_keystone
+    sudo docker run -d --hostname ceilometer \
+                       --name openstack-ceilometer \
+                       -p 8777:8777 \
+                       --env-file ./env.list \
+                       openstack-ceilometer
+
+.PHONY: build_openstack_clients
+build_openstack_clients: build_openstack_base
+    sudo makepp -C dockerfiles/openstack_clients build_image
+
+.PHONY: install_openstack_clients
+install_openstack_clients: build_openstack_clients 
+    sudo docker run -d --hostname openstack-clients -p 22222:22 --name openstack-clients --env-file ./env.list  openstack-clients
+
+.PHONY: build_horizon
+build_horizon: build_openstack_base
+    sudo makepp -C dockerfiles/horizon build_image
+
+.PHONY: install_horizon
+install_horizon: build_horizon 
+    sudo docker run -d --hostname horizon --name openstack-horizon -p 8888:80 --env-file ./env.list  openstack-horizon
+
+.PHONY: clean
+clean:
+    sudo docker stop $(shell sudo docker ps -a -q)
+    sudo docker rm $(shell sudo docker ps -a -q)
+
+.PHONY: purge
+purge: clean
+    sudo docker rmi $(shell sudo docker images -q)
+    sudo apt-get autoremove -y --purge lxc-docker
+    sudo rm -rf /var/lib/docker

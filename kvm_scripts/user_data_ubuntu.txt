@@ -1,0 +1,21 @@
+#cloud-config
+
+timezone: Canada/Eastern
+apt_update: true
+manage_etc_hosts: true
+
+users:
+  - name: lab
+    gecos: lab
+    groups: sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    passwd: $6$rounds=4096$pVVb5R4V7xTa4pa$LvYJHwlG48llZYM2xsi8JEmkezor9p3W5IUmrOMj.YRACpPjWcQ0rdvd68T4u3OBLa2kCmFlxK/q/39V6.kd8.
+    lock-passwd: false
+
+packages:
+ - htop
+runcmd:
+ - "sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config"
+ - service ssh restart
+

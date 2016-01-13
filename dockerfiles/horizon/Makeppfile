@@ -1,0 +1,3 @@
+.PHONY: build_image
+build_image:
+    sudo docker build -t openstack-horizon .

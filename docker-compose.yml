@@ -1,0 +1,57 @@
+install_rabbitmq:
+  image: rabbitmq:3
+  container_name: openstack-rabbitmq
+  hostname: rabbitmq
+  ports:
+    - "5672:5672"
+  env_file:
+    - ./env.list
+
+openstack-mariadb:
+  build: dockerfiles/mariadb
+  container_name: openstack-mariadb
+  hostname: mariadb
+  ports:
+    - "3306:3306"
+  volumes:
+    - /var/lib/openstack-mariadb/mysql:/var/lib/mysql
+  env_file:
+    - ./env.list
+
+
+openstack-keystone:
+  build: dockerfiles/keystone
+  container_name: openstack-keystone
+  hostname: keystone
+  ports:
+    - "5000:5000"
+    - "35357:35357"
+  env_file:
+    - ./env.list
+  links:
+    - openstack-mariadb
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100
+
+
+install_glance: build_glance
+    sudo docker run -d --hostname glance \
+                       --name openstack-glance \
+                       -p 9292:9292 \
+                       --env-file ./env.list \
+                       openstack-glance
+
+openstack-glance:
+  build: dockerfiles/glance
+  container_name: openstack-glance
+  hostname: glance
+  ports:
+    - "9292:9292"
+  env_file:
+    - ./env.list
+  links:
+    - openstack-keystone
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100

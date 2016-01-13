@@ -1,0 +1,22 @@
+3/usr/bin/makepp -C dockerfiles/openstack_base build_image
+VERSION2.0.98.35.18.2x86_64-linux-gnu-thread-multi
+LOAD14dc568Makeppfile1ec68f0/home/osu/OpenStack-On-Docker-compose/dockerfiles/openstack_base1ec68f0
+TRY14dc568
+USEdefault rule
+DEPEND14dc568
+UP_TO_DATE14dc568
+LOAD_INCL1ec5f48makepp_builtin_rules.mk1ea7718/usr/share/makepp14dc568
+LOAD_END14dc568
+TRY1ec1010build_image1ec68f0
+USE/home/osu/OpenStack-On-Docker-compose/dockerfiles/openstack_base/Makeppfile:2
+SCAN_INFO1ec1010
+LEX_RULE1ec1010info not cached
+PARSEsudo docker build -t openstack-base .1ec68f0/home/osu/OpenStack-On-Docker-compose/dockerfiles/openstack_base/Makeppfile:2
+TRY1ef65d8sudo1ef6500/usr/bin
+USEdefault rule
+DEPEND1ef65d8
+UP_TO_DATE1ef65d8
+DEPEND1ec10101ef65d8
+BUILD_PHONY1ec1010
+SUCCESS/home/osu/OpenStack-On-Docker-compose/dockerfiles/openstack_base/Makeppfile:21ec1010
+N_FILES010
