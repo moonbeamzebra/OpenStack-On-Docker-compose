@@ -42,6 +42,11 @@ GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' \
 FLUSH PRIVILEGES;" | mysql --user=root --password=$MYSQL_ROOT_PASSWORD -h $MYSQLHOST -P 3306
 
 
+
+./wait_for_ks_admin_ep.sh
+
+
+
 openstack user create --domain default --password $NOVA_PASS nova
 openstack role add --project service --user nova admin
 openstack service create --name nova \

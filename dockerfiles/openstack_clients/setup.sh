@@ -12,6 +12,7 @@ export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=$ADMIN_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:35357/v3
+export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
 EOF
 
@@ -26,6 +27,7 @@ export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
 export OS_PASSWORD=$DEMO_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:5000/v3
+export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
 EOF
 
@@ -33,6 +35,6 @@ cp /home/osu/demo-openrc.sh /
 chown osu:osu /home/osu/demo-openrc.sh
 
 cd /home/osu
-git clone https://github.com/moonbeamzebra/OpenStack-On-Docker.git
-chown -R osu: OpenStack-On-Docker
+git clone https://github.com/moonbeamzebra/OpenStack-On-Docker-compose.git
+chown -R osu: OpenStack-On-Docker-compose
 cd -

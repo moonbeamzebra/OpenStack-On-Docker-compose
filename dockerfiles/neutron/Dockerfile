@@ -7,11 +7,13 @@ RUN apt-get install -y \
     neutron-plugin-ml2 \
     python-neutronclient
 
-ADD run.sh run.sh
 ADD setup.sh setup.sh
+ADD run.sh run.sh
+ADD wait_for_ks_admin_ep.sh wait_for_ks_admin_ep.sh
+ADD wait_for_mysql.sh wait_for_mysql.sh
 
-RUN chmod +x run.sh && chmod +x setup.sh
+RUN chmod +x wait_for_ks_admin_ep.sh && chmod +x wait_for_mysql.sh && chmod +x run.sh && chmod +x setup.sh
 
 EXPOSE 9696
 
-CMD ./setup.sh && sleep 5 && ./run.sh
+CMD ./wait_for_mysql.sh && ./setup.sh && sleep 5 && ./run.sh

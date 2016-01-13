@@ -40,6 +40,16 @@ GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
   IDENTIFIED BY '$NEUTRON_DBPASS';
 FLUSH PRIVILEGES;" | mysql --user=root --password=$MYSQL_ROOT_PASSWORD -h $MYSQLHOST -P 3306
 
+
+
+
+
+./wait_for_ks_admin_ep.sh
+
+
+
+
+
 openstack user create --domain default --password $NEUTRON_PASS neutron
 openstack role add --project service --user neutron admin
 openstack service create --name neutron \

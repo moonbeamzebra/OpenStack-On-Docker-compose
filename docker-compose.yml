@@ -47,3 +47,54 @@ openstack-glance:
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
+
+openstack-nova:
+  build: dockerfiles/nova
+  container_name: openstack-nova
+  hostname: nova
+  privileged: true
+  ports:
+    - "8774:8774"
+    - "8775:8775"
+    - "6080:6080"
+  env_file:
+    - ./env.list
+  links:
+    - openstack-keystone
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100
+
+openstack-neutron:
+  build: dockerfiles/neutron
+  container_name: openstack-neutron
+  hostname: neutron
+  ports:
+    - "9696:9696"
+  env_file:
+    - ./env.list
+  links:
+    - openstack-keystone
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100
+
+openstack-clients:
+  build: dockerfiles/openstack_clients
+  container_name: openstack-clients
+  hostname: openstack-clients
+  ports:
+    - "22222:22"
+  env_file:
+    - ./env.list
+
+openstack-horizon:
+  build: dockerfiles/horizon
+  container_name: openstack-horizon
+  hostname: horizon
+  ports:
+    - "8888:80"
+  env_file:
+    - ./env.list
+
+
