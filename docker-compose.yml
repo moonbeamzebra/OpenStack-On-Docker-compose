@@ -34,14 +34,6 @@ openstack-keystone:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
 
-
-install_glance: build_glance
-    sudo docker run -d --hostname glance \
-                       --name openstack-glance \
-                       -p 9292:9292 \
-                       --env-file ./env.list \
-                       openstack-glance
-
 openstack-glance:
   build: dockerfiles/glance
   container_name: openstack-glance
