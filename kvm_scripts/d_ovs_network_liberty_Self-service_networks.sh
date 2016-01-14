@@ -147,7 +147,7 @@ crudini --set /etc/neutron/dhcp_agent.ini DEFAULT enable_isolated_metadata True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT use_namespaces True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dhcp_delete_namespaces True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT verbose True
-crudini --set /etc/neutron/dhcp_agent.ini dnsmasq_config_file /etc/neutron/dnsmasq-neutron.conf
+crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dnsmasq_config_file /etc/neutron/dnsmasq-neutron.conf
 diff /etc/neutron/dhcp_agent.ini  /etc/neutron/dhcp_agent.ini.bak
 
 echo "dhcp-option-force=26,1450" >> /etc/neutron/dnsmasq-neutron.conf 
