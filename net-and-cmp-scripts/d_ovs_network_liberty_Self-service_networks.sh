@@ -18,19 +18,19 @@ HEAT_PASS=heat1
 CEIL_PASS=lab1
 DEMO_PASS=demo
 METADATA_SECRET=metadata_secret1
-RABBIT_HOST=10.199.1.26
-KEYSTONE_HOST=10.199.1.26
-HORIZON_HOST=10.199.1.26
-CINDER_HOST=10.199.1.26
-GLANCE_HOST=10.199.1.26
-NOVA_HOST=10.199.1.26
-NEUTRON_HOST=10.199.1.26
-HEAT_HOST=10.199.1.26
-MONGO_HOST=10.199.1.26
-CEIL_HOST=10.199.1.26
-MYSQLHOST=10.199.1.26
+RABBIT_HOST=10.199.1.220
+KEYSTONE_HOST=10.199.1.220
+HORIZON_HOST=10.199.1.220
+CINDER_HOST=10.199.1.220
+GLANCE_HOST=10.199.1.220
+NOVA_HOST=10.199.1.220
+NEUTRON_HOST=10.199.1.220
+HEAT_HOST=10.199.1.220
+MONGO_HOST=10.199.1.220
+CEIL_HOST=10.199.1.220
+MYSQLHOST=10.199.1.220
 REGION1=RegionOne
-NET_OVERLAY_INTERFACE_IP_ADDRESS=10.199.5.27
+NET_OVERLAY_INTERFACE_IP_ADDRESS=10.199.5.221
 NET_PUBLIC_INTERFACE_NAME=eth2
 
 ## Get the packages
@@ -147,8 +147,10 @@ crudini --set /etc/neutron/dhcp_agent.ini DEFAULT enable_isolated_metadata True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT use_namespaces True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dhcp_delete_namespaces True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT verbose True
+crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dnsmasq_config_file /etc/neutron/dnsmasq-neutron.conf
 diff /etc/neutron/dhcp_agent.ini  /etc/neutron/dhcp_agent.ini.bak
 
+echo "dhcp-option-force=26,1450" >> /etc/neutron/dnsmasq-neutron.conf 
 
 sleep 5
 
