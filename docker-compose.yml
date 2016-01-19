@@ -6,6 +6,18 @@ install_rabbitmq:
     - "5672:5672"
   env_file:
     - ./env.list
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 openstack-mariadb:
   build: dockerfiles/mariadb
@@ -17,6 +29,18 @@ openstack-mariadb:
     - /var/lib/openstack-mariadb/mysql:/var/lib/mysql
   env_file:
     - ./env.list
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 
 openstack-keystone:
@@ -33,6 +57,18 @@ openstack-keystone:
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 openstack-glance:
   build: dockerfiles/glance
@@ -47,6 +83,18 @@ openstack-glance:
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 openstack-nova:
   build: dockerfiles/nova
@@ -64,6 +112,18 @@ openstack-nova:
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 openstack-neutron:
   build: dockerfiles/neutron
@@ -78,6 +138,18 @@ openstack-neutron:
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 openstack-clients:
   build: dockerfiles/openstack_clients
@@ -96,5 +168,17 @@ openstack-horizon:
     - "8888:80"
   env_file:
     - ./env.list
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220" 
+    - "mongo-host:10.199.1.220" 
+    - "ceil-host:10.199.1.220" 
+    - "mysql-host:10.199.1.220"
 
 
