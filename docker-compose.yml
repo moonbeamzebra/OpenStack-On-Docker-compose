@@ -14,9 +14,9 @@ install_rabbitmq:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
 openstack-mariadb:
@@ -37,9 +37,9 @@ openstack-mariadb:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
 
@@ -65,9 +65,9 @@ openstack-keystone:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
 openstack-glance:
@@ -91,9 +91,9 @@ openstack-glance:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
 openstack-nova:
@@ -120,9 +120,9 @@ openstack-nova:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
 openstack-neutron:
@@ -146,9 +146,36 @@ openstack-neutron:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
+    - "mysql-host:10.199.1.220"
+
+openstack-heat:
+  build: dockerfiles/heat
+  container_name: openstack-heat
+  hostname: heat
+  ports:
+    - "8000:8000"
+    - "8004:8004"
+  env_file:
+    - ./env.list
+  links:
+    - openstack-keystone
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100
+  extra_hosts:
+    - "rabbit-host:10.199.1.220"
+    - "keystone-host:10.199.1.220"
+    - "horizon-host:10.199.1.220"
+    - "cinder-host:10.199.1.220"
+    - "glance-host:10.199.1.220"
+    - "nova-host:10.199.1.220"
+    - "neutron-host:10.199.1.220"
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
 openstack-clients:
@@ -189,9 +216,7 @@ openstack-horizon:
     - "glance-host:10.199.1.220"
     - "nova-host:10.199.1.220"
     - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220" 
-    - "mongo-host:10.199.1.220" 
-    - "ceil-host:10.199.1.220" 
+    - "heat-host:10.199.1.220"
+    - "mongo-host:10.199.1.220"
+    - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
-
-
