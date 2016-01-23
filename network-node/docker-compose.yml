@@ -1,6 +1,6 @@
 os-network-node:
   build: dockerfiles/network_node
-  container_name: openstack-net
+  container_name: os-network-node
   hostname: net
   env_file:
     - ../env.list
