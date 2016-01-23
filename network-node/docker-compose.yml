@@ -3,7 +3,7 @@ os-network-node:
   container_name: openstack-net
   hostname: net
   env_file:
-    - ./env.list
+    - ../env.list
   extra_hosts:
     - "rabbit-host:10.199.1.220"
     - "keystone-host:10.199.1.220"
