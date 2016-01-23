@@ -31,13 +31,13 @@ export OS_IMAGE_API_VERSION=2
 EOF
 
 
-cp /etc/sysctl.conf /etc/sysctl.conf.bak
-cat <<EOF >> /etc/sysctl.conf
-net.ipv4.ip_forward=1
-net.ipv4.conf.default.rp_filter=0
-net.ipv4.conf.all.rp_filter=0
-EOF
-sysctl -p
+#cp /etc/sysctl.conf /etc/sysctl.conf.bak
+#cat <<EOF >> /etc/sysctl.conf
+#net.ipv4.ip_forward=1
+#net.ipv4.conf.default.rp_filter=0
+#net.ipv4.conf.all.rp_filter=0
+#EOF
+#sysctl -p
 
 cp /etc/neutron/neutron.conf /etc/neutron/neutron.conf.bak
 
