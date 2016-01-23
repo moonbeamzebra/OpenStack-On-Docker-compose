@@ -10,11 +10,11 @@ touch /var/log/neutron/neutron-metadata-agent.log
 touch /var/log/neutron/openvswitch-agent.log
 touch /var/log/neutron/l3-agent.log
 
-service openvswitch-switch restart
-service neutron-plugin-openvswitch-agent restart
-service neutron-l3-agent restart
-service neutron-dhcp-agent restart
-service neutron-metadata-agent restart
+#service openvswitch-switch restart
+#service neutron-plugin-openvswitch-agent restart
+#service neutron-l3-agent restart
+#service neutron-dhcp-agent restart
+#service neutron-metadata-agent restart
 
 tail -v -F /var/log/openvswitch/ovs-ctl.log &
 tail -v -F /var/log/openvswitch/ovsdb-server.log &
