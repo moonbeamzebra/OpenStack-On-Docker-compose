@@ -30,14 +30,18 @@ export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
 EOF
 
+service neutron-plugin-openvswitch-agent stop
+service neutron-l3-agent stop
+service neutron-dhcp-agent stop
+service neutron-metadata-agent stop
 
-#cp /etc/sysctl.conf /etc/sysctl.conf.bak
-#cat <<EOF >> /etc/sysctl.conf
-#net.ipv4.ip_forward=1
-#net.ipv4.conf.default.rp_filter=0
-#net.ipv4.conf.all.rp_filter=0
-#EOF
-#sysctl -p
+cp /etc/sysctl.conf /etc/sysctl.conf.bak
+cat <<EOF >> /etc/sysctl.conf
+net.ipv4.ip_forward=1
+net.ipv4.conf.default.rp_filter=0
+net.ipv4.conf.all.rp_filter=0
+EOF
+sysctl -p
 
 cp /etc/neutron/neutron.conf /etc/neutron/neutron.conf.bak
 
@@ -155,10 +159,11 @@ diff /etc/neutron/metadata_agent.ini /etc/neutron/metadata_agent.ini.bak
 service openvswitch-switch restart
 ovs-vsctl add-br br-ex
 ovs-vsctl add-port br-ex $NET_PUBLIC_INTERFACE_NAME
+service openvswitch-switch stop
 
-service neutron-plugin-openvswitch-agent restart
-service neutron-l3-agent restart
-service neutron-dhcp-agent restart
-service neutron-metadata-agent restart
+#service neutron-plugin-openvswitch-agent restart
+#service neutron-l3-agent restart
+#service neutron-dhcp-agent restart
+#service neutron-metadata-agent restart
 
 touch /setup.done
