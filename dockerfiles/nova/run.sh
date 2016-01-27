@@ -4,6 +4,8 @@ crudini --set /etc/nova/nova.conf DEFAULT my_ip $NOVA_ETH_IP
 crudini --set /etc/nova/nova.conf DEFAULT vncserver_listen $NOVA_ETH_IP
 crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $NOVA_ETH_IP
 
+./wait_for_rabbitmq.sh
+
 
 service nova-api restart
 service nova-cert restart
