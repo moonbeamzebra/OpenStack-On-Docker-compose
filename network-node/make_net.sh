@@ -1,31 +1,42 @@
-BC_CONTAINER_NAME=$1
-BC_CONTAINER_IP=$2
-BC_INTERFACE_NAME=$3
-BC_GATEWAY=$4
-BC_MASK_LEADING_BITS=$5
-BC_BRIDGE=$6
-BC_VLAN=$7
 
-BC_INT_INTERFACE_NAME=$BC_INTERFACE_NAME-int
-BC_EXT_INTERFACE_NAME=$BC_INTERFACE_NAME-ext
+MY_INTERFACE_NAME=osnn
 
+MY_INT_INTERFACE_NAME=$MY_INTERFACE_NAME
+MY_EXT_INTERFACE_NAME=$MY_INTERFACE_NAME-ext
 
-sudo ip link add $BC_INT_INTERFACE_NAME type veth peer name $BC_EXT_INTERFACE_NAME
+MY_CONTAINER_NAME=os-network-node
+MY_CONTAINER_ETH0_IP=192.168.2.248
+MY_CONTAINER_ETH1_IP=192.168.2.249
+MY_MASK_LEADING_BITS=24
+MY_GATEWAY=192.168.2.1
 
-if [ -z "$BC_VLAN" ]; then
-    sudo ovs-vsctl add-port $BC_BRIDGE $BC_EXT_INTERFACE_NAME
-else
-    sudo ovs-vsctl add-port $BC_BRIDGE $BC_EXT_INTERFACE_NAME tag=$BC_VLAN
-fi
+sudo ip link add $MY_INT_INTERFACE_NAME-0 type veth peer name $MY_EXT_INTERFACE_NAME-0
+sudo ip link add $MY_INT_INTERFACE_NAME-1 type veth peer name $MY_EXT_INTERFACE_NAME-1
+sudo ip link add $MY_INT_INTERFACE_NAME-2 type veth peer name $MY_EXT_INTERFACE_NAME-2
 
-sudo ip link set netns $(docker inspect --format '{{ .State.Pid }}' $BC_CONTAINER_NAME)  $BC_INT_INTERFACE_NAME
+sudo brctl addif br0 $MY_EXT_INTERFACE_NAME-0
+sudo brctl addif br0 $MY_EXT_INTERFACE_NAME-1
+sudo brctl addif br0 $MY_EXT_INTERFACE_NAME-2
 
-sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $BC_CONTAINER_NAME) -n ip link set $BC_INT_INTERFACE_NAME up
-sudo ip link set $BC_EXT_INTERFACE_NAME up
+sudo ip link set netns $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME)  $MY_INT_INTERFACE_NAME-0
+sudo ip link set netns $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME)  $MY_INT_INTERFACE_NAME-1
+sudo ip link set netns $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME)  $MY_INT_INTERFACE_NAME-2
 
-sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $BC_CONTAINER_NAME) -n ip addr add $BC_CONTAINER_IP/$BC_MASK_LEADING_BITS dev $BC_INT_INTERFACE_NAME
-sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $BC_CONTAINER_NAME) -n ip route add default via $BC_GATEWAY dev $BC_INT_INTERFACE_NAME
+sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n ip link set $MY_INT_INTERFACE_NAME-0 up
+sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n ip link set $MY_INT_INTERFACE_NAME-1 up
+sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n ip link set $MY_INT_INTERFACE_NAME-2 up
+sudo ip link set $MY_EXT_INTERFACE_NAME-0 up
+sudo ip link set $MY_EXT_INTERFACE_NAME-1 up
+sudo ip link set $MY_EXT_INTERFACE_NAME-2 up
 
+sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n ip addr add $MY_CONTAINER_ETH0_IP/$MY_MASK_LEADING_BITS dev $MY_INT_INTERFACE_NAME-0
+sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n ip addr add $MY_CONTAINER_ETH1_IP/$MY_MASK_LEADING_BITS dev $MY_INT_INTERFACE_NAME-1
+
+sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n ip route add default via $MY_GATEWAY dev $MY_INT_INTERFACE_NAME-0
+
+#sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n /sbin/sysctl -w net.ipv4.ip_forward=1
+#sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n /sbin/sysctl -w net.ipv4.conf.default.rp_filter=0
+#sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $MY_CONTAINER_NAME) -n /sbin/sysctl -w net.ipv4.conf.all.rp_filter=0
 
 
 
