@@ -6,6 +6,9 @@ os-network-node:
   privileged: true
   env_file:
     - ../env.list
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100
   extra_hosts:
     - "rabbit-host:192.168.2.253"
     - "keystone-host:192.168.2.253"

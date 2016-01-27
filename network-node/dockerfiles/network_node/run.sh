@@ -1,5 +1,7 @@
 #! /bin/bash +ex
 
+./wait_for_rabbitmq.sh
+
 touch /var/log/openvswitch/ovs-ctl.log
 touch /var/log/openvswitch/ovsdb-server.log
 touch /var/log/openvswitch/ovs-vswitchd.log
