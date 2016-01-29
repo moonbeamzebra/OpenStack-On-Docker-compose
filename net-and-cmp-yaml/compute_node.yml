@@ -1,0 +1,24 @@
+os-compute-node:
+  build: dockerfiles/compute_node
+  container_name: os-compute-node
+  hostname: cmp01
+  net: "none"
+  privileged: true
+  env_file:
+    - ../env.list
+  environment:
+    - WAIT_SLEEP=1
+    - WAIT_LOOPS=100
+  extra_hosts:
+    - "rabbit-host:192.168.2.253"
+    - "keystone-host:192.168.2.253"
+    - "horizon-host:192.168.2.253"
+    - "cinder-host:192.168.2.253"
+    - "glance-host:192.168.2.253"
+    - "nova-host:192.168.2.253"
+    - "neutron-host:192.168.2.253"
+    - "heat-host:192.168.2.253"
+    - "mongo-host:192.168.2.253"
+    - "ceil-host:192.168.2.253"
+    - "mysql-host:192.168.2.253"
+    - "netnode-overlay-ip:10.199.5.221"
