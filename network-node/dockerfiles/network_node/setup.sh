@@ -30,6 +30,10 @@ export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
 EOF
 
+
+./wait_for_rabbitmq.sh
+
+
 service neutron-plugin-openvswitch-agent stop
 service neutron-l3-agent stop
 service neutron-dhcp-agent stop

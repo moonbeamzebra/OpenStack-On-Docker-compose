@@ -21,4 +21,4 @@ RUN chmod +x wait_for_ks_admin_ep.sh && \
     chmod +x wait_for_rabbitmq.sh && \
     chmod +x run.sh && chmod +x setup.sh
 
-CMD ./wait_for_mysql.sh && ./setup.sh && sleep 5 && ./run.sh
+CMD ./setup.sh && sleep 5 && ./run.sh
