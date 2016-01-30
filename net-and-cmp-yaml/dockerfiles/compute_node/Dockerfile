@@ -3,12 +3,12 @@ FROM openstack-base
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y \
-                      neutron-plugin-ml2 \
-                      neutron-plugin-openvswitch-agent \
-                      neutron-l3-agent \
-                      neutron-dhcp-agent \
-                      neutron-metadata-agent
+                      nova-compute \
+                      sysfsutils
 
+RUN apt-get install -y \
+    neutron-plugin-ml2 \
+    neutron-plugin-openvswitch-agent
 
 ADD setup.sh setup.sh
 ADD run.sh run.sh
