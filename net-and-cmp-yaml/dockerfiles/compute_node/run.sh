@@ -4,6 +4,11 @@
 
 touch /tmp/log.log
 
+#/etc/init.d/libvirt-bin restart
+#/etc/init.d/qemu-kvm restart
+
+service openvswitch-switch restart
+
 service nova-compute restart
 
 service neutron-plugin-openvswitch-agent restart
