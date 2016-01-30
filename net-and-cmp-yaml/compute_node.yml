@@ -22,3 +22,4 @@ os-compute-node:
     - "ceil-host:192.168.2.253"
     - "mysql-host:192.168.2.253"
     - "netnode-overlay-ip:10.199.5.221"
+    - "cmp01:192.168.2.246"
