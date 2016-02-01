@@ -220,3 +220,45 @@ openstack-horizon:
     - "mongo-host:192.168.2.253"
     - "ceil-host:192.168.2.253"
     - "mysql-host:192.168.2.253"
+
+openstack-ceilometer:
+  build: dockerfiles/ceilometer
+  container_name: openstack-ceilometer
+  hostname: ceilometer
+  ports:
+    - "8777:8777"
+  env_file:
+    - ./env.list
+  extra_hosts:
+    - "rabbit-host:192.168.2.253"
+    - "keystone-host:192.168.2.253"
+    - "horizon-host:192.168.2.253"
+    - "cinder-host:192.168.2.253"
+    - "glance-host:192.168.2.253"
+    - "nova-host:192.168.2.253"
+    - "neutron-host:192.168.2.253"
+    - "heat-host:192.168.2.253"
+    - "mongo-host:192.168.2.253"
+    - "ceil-host:192.168.2.253"
+    - "mysql-host:192.168.2.253"
+
+openstack-mongodb:
+  build: dockerfiles/mongodb
+  container_name: openstack-mongodb
+  hostname: mongodb
+  ports:
+    - "27017:27017"
+  env_file:
+    - ./env.list
+  extra_hosts:
+    - "rabbit-host:192.168.2.253"
+    - "keystone-host:192.168.2.253"
+    - "horizon-host:192.168.2.253"
+    - "cinder-host:192.168.2.253"
+    - "glance-host:192.168.2.253"
+    - "nova-host:192.168.2.253"
+    - "neutron-host:192.168.2.253"
+    - "heat-host:192.168.2.253"
+    - "mongo-host:192.168.2.253"
+    - "ceil-host:192.168.2.253"
+    - "mysql-host:192.168.2.253"

@@ -1,5 +1,10 @@
 #! /bin/bash +ex
 
+
+./wait_for_rabbitmq.sh
+
+
+
 service ceilometer-agent-central restart
 service ceilometer-agent-notification restart
 service ceilometer-api restart
