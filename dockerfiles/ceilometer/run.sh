@@ -3,7 +3,9 @@
 
 ./wait_for_rabbitmq.sh
 
+./wait_for_mongo.sh
 
+sleep 2
 
 service ceilometer-agent-central restart
 service ceilometer-agent-notification restart

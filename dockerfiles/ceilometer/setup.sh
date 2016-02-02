@@ -36,11 +36,16 @@ source /admin-openrc.sh
 
 
 echo "$CEIL_DBPASS"
-mongo --host $MONGO_HOST --eval '
-  db = db.getSiblingDB("ceilometer");
-  db.addUser({user: "ceilometer",
-  pwd: "$CEIL_DBPASS",
-  roles: [ "readWrite", "dbAdmin" ]})'
+#mongo --host $MONGO_HOST --eval '
+#  db = db.getSiblingDB("ceilometer");
+#  db.addUser({user: "ceilometer",
+#  pwd: "",
+#  roles: [ "readWrite", "dbAdmin" ]})'
+#mongo --host 10.199.1.220 --eval '
+#  db = db.getSiblingDB("ceilometer");
+#  db.addUser({user: "ceilometer",
+#  pwd: "ceildb1",
+#  roles: [ "readWrite", "dbAdmin" ]})'
 
 openstack user create --domain default --password $CEIL_PASS ceilometer
 openstack role add --project service --user ceilometer admin

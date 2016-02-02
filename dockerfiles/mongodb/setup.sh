@@ -39,11 +39,34 @@ echo "bind_ip = 0.0.0.0" >> /etc/mongodb.conf
 echo "smallfiles = true" >> /etc/mongodb.conf
 
 
-sleep 5
-service mongodb stop
-sleep 5
+#mongo --host 10.199.1.220 --eval '
+#  db = db.getSiblingDB("ceilometer");
+#  db.addUser({user: "ceilometer",
+#  pwd: "ceildb1",
+#  roles: [ "readWrite", "dbAdmin" ]})'
+
+#service mongodb stop
+#sleep 5
 rm -f /var/lib/mongodb/journal/prealloc.*
 #service mongodb start
-#service mongodb restart
+service mongodb start
+
+./wait_for_mongo.sh noauth
+sleep 1
+
+echo "$CEIL_DBPASS"
+mongo --host $MONGO_HOST --eval '
+  db = db.getSiblingDB("ceilometer");
+  db.addUser({user: "ceilometer",
+  pwd: "ceildb1",
+  roles: [ "readWrite", "dbAdmin" ]})'
+#mongo --host 10.199.1.220 --eval '
+#  db = db.getSiblingDB("ceilometer");
+#  db.addUser({user: "ceilometer",
+#  pwd: "ceildb1",
+#  roles: [ "readWrite", "dbAdmin" ]})'
+
+#sleep 2
+#service mongodb stop
 
 touch /setup.done
