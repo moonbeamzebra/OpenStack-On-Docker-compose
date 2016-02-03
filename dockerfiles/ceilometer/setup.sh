@@ -34,19 +34,6 @@ source /admin-openrc.sh
 
 ./wait_for_ks_admin_ep.sh
 
-
-echo "$CEIL_DBPASS"
-#mongo --host $MONGO_HOST --eval '
-#  db = db.getSiblingDB("ceilometer");
-#  db.addUser({user: "ceilometer",
-#  pwd: "",
-#  roles: [ "readWrite", "dbAdmin" ]})'
-#mongo --host 10.199.1.220 --eval '
-#  db = db.getSiblingDB("ceilometer");
-#  db.addUser({user: "ceilometer",
-#  pwd: "ceildb1",
-#  roles: [ "readWrite", "dbAdmin" ]})'
-
 openstack user create --domain default --password $CEIL_PASS ceilometer
 openstack role add --project service --user ceilometer admin
 openstack service create --name ceilometer \
@@ -83,5 +70,15 @@ crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_endpoint_ty
 crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_region_name $REGION1
 
 crudini --set /etc/ceilometer/ceilometer.conf DEFAULT verbose True
+
+./wait_for_mongo.sh noauth
+sleep 1
+
+echo "$CEIL_DBPASS"
+mongo --host $MONGO_HOST --eval '
+  db = db.getSiblingDB("ceilometer");
+  db.addUser({user: "ceilometer",
+  pwd: "ceildb1",
+  roles: [ "readWrite", "dbAdmin" ]})'
 
 touch /setup.done

@@ -5,6 +5,13 @@
 
 ./wait_for_mongo.sh
 
+source /admin-openrc.sh
+
+./wait_for_ks_admin_ep.sh
+./wait_for_nova_api.sh
+./wait_for_neutron_api.sh
+./wait_for_glance_api.sh
+
 sleep 2
 
 service ceilometer-agent-central restart
