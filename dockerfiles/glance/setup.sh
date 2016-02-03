@@ -55,7 +55,7 @@ openstack endpoint create --region $REGION1 \
 openstack endpoint create --region $REGION1 \
   image internal http://$GLANCE_HOST:9292
 openstack endpoint create --region $REGION1 \
-  image admin http://$GLANCE_HOST:9292  
+  image admin http://$GLANCE_HOST:9292
 
 
 cp /etc/glance/glance-api.conf /etc/glance/glance-api.conf.bak
@@ -64,7 +64,7 @@ crudini --set /etc/glance/glance-api.conf database connection mysql+pymysql://gl
 crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
 crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
 crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_plugin password
-crudini --set /etc/glance/glance-api.conf keystone_authtoken project_domain_id default 
+crudini --set /etc/glance/glance-api.conf keystone_authtoken project_domain_id default
 crudini --set /etc/glance/glance-api.conf keystone_authtoken user_domain_id default
 crudini --set /etc/glance/glance-api.conf keystone_authtoken project_name service
 crudini --set /etc/glance/glance-api.conf keystone_authtoken username glance
@@ -75,9 +75,13 @@ crudini --set /etc/glance/glance-api.conf paste_deploy flavor keystone
 crudini --set /etc/glance/glance-api.conf glance_store default_store file
 crudini --set /etc/glance/glance-api.conf glance_store filesystem_store_datadir /var/lib/glance/images/
 
-crudini --set /etc/glance/glance-api.conf DEFAULT notification_driver noop
+crudini --set /etc/glance/glance-api.conf DEFAULT notification_driver messagingv2
+crudini --set /etc/glance/glance-api.conf DEFAULT rpc_backend rabbit
 crudini --set /etc/glance/glance-api.conf DEFAULT verbose True
 
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_password $RABBITMQ_DEFAULT_PASS
 
 cp /etc/glance/glance-registry.conf  /etc/glance/glance-registry.conf.bak
 
@@ -86,7 +90,7 @@ crudini --set /etc/glance/glance-registry.conf database connection mysql+pymysql
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_plugin password
-crudini --set /etc/glance/glance-registry.conf keystone_authtoken project_domain_id default 
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken project_domain_id default
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken user_domain_id default
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken project_name service
 crudini --set /etc/glance/glance-registry.conf keystone_authtoken username glance
@@ -94,15 +98,20 @@ crudini --set /etc/glance/glance-registry.conf keystone_authtoken password $GLAN
 
 crudini --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
 
-crudini --set /etc/glance/glance-registry.conf DEFAULT notification_driver noop
+crudini --set /etc/glance/glance-registry.conf DEFAULT notification_driver messagingv2
+crudini --set /etc/glance/glance-registry.conf DEFAULT rpc_backend rabbit
 crudini --set /etc/glance/glance-registry.conf DEFAULT verbose True
+
+crudini --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
+crudini --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
+crudini --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_password $RABBITMQ_DEFAULT_PASS
 
 diff /etc/glance/glance-api.conf /etc/glance/glance-api.conf.bak
 diff /etc/glance/glance-registry.conf  /etc/glance/glance-registry.conf.bak
 
 sleep 5
 
-su -s /bin/sh -c "glance-manage db_sync" glance 2>&1 > /var/log/glance/glance-manage.out 
+su -s /bin/sh -c "glance-manage db_sync" glance 2>&1 > /var/log/glance/glance-manage.out
 service glance-registry restart
 service glance-api restart
 rm -f /var/lib/glance/glance.sqlite
