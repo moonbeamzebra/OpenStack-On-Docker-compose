@@ -47,7 +47,10 @@ apt-get update -y
 apt-get -y install crudini curl
 
 
-apt-get install -y nova-compute sysfsutils
+apt-get install -y \
+                   nova-compute \
+                   sysfsutils \
+                   ceilometer-agent-compute
 
 
 cp /etc/nova/nova.conf /etc/nova/nova.conf.bak
@@ -59,6 +62,11 @@ crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
 crudini --set /etc/nova/nova.conf DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
 crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 crudini --set /etc/nova/nova.conf DEFAULT verbose True
+
+crudini --set /etc/nova/nova.conf DEFAULT instance_usage_audit True
+crudini --set /etc/nova/nova.conf DEFAULT instance_usage_audit_period hour
+crudini --set /etc/nova/nova.conf DEFAULT notify_on_state_change vm_and_task_state
+crudini --set /etc/nova/nova.conf DEFAULT notification_driver messagingv2
 
 crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
 crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
@@ -93,6 +101,32 @@ crudini --set /etc/nova/nova.conf neutron username neutron
 crudini --set /etc/nova/nova.conf neutron password $NEUTRON_PASS
 
 diff /etc/nova/nova.conf /etc/nova/nova.conf.bak
+
+cp /etc/ceilometer/ceilometer.conf /etc/ceilometer/ceilometer.conf.bak
+crudini --set /etc/ceilometer/ceilometer.conf DEFAULT rpc_backend rabbit
+crudini --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
+crudini --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
+crudini --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_password $RABBITMQ_DEFAULT_PASS
+
+crudini --set /etc/ceilometer/ceilometer.conf DEFAULT auth_strategy keystone
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_plugin password
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken project_domain_id default
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken user_domain_id default
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken project_name service
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken username ceilometer
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken password $CEIL_PASS
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_auth_url http://$KEYSTONE_HOST:5000/v2.0
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_username ceilometer
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_tenant_name service
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_password $CEIL_PASS
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_endpoint_type internalURL
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_region_name $REGION1
+crudini --set /etc/ceilometer/ceilometer.conf DEFAULT verbose True
+
+diff /etc/ceilometer/ceilometer.conf /etc/ceilometer/ceilometer.conf.bak
+
 
 service nova-compute restart
 rm -f /var/lib/nova/nova.sqlite
@@ -163,10 +197,8 @@ diff /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugins/ml2/ml2_conf.ini
 
 sleep 5
 
+service ceilometer-agent-compute restart
 
 service nova-compute restart
 
 service neutron-plugin-openvswitch-agent restart
-
-
-
