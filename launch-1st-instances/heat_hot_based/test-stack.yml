@@ -46,7 +46,7 @@ resources:
       #ipv6_address_mode: String
       #ipv6_ra_mode: String
       name: demo_hot_subnet_private
-      network: { get_resource: private_network }
+      network: { get_resource: demo_hot_net_private }
       #prefixlen: Integer
       #subnetpool: String
       #tenant_id: String
