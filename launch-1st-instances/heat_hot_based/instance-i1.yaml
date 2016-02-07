@@ -13,11 +13,11 @@ parameters:
     type: string
     description: Flavor use to boot a server
     default: m1.tiny
-  public_network:
+  private_network:
     type: string
-    label: Public network name or ID
-    description: Public network with floating IP addresses.
-    default: public
+    label: Private network name or ID
+    description: Private network.
+    default: private
 
 resources:
 
@@ -33,59 +33,6 @@ resources:
           port_range_min: 22
           port_range_max: 22
 
-
-  demo_hot_net_private:
-    type: OS::Neutron::Net
-    properties:
-      #admin_state_up: Boolean
-      #dhcp_agent_ids: [Value, Value, ...]
-      name: demo_hot_net_private
-      #port_security_enabled: Boolean
-      #qos_policy: String
-      #shared: Boolean
-      #tenant_id: String
-      #value_specs: {...}
-
-  demo_hot_subnet_private:
-    type: OS::Neutron::Subnet
-    properties:
-      #allocation_pools: [{"start": String, "end": String}, {"start": String, "end": String}, ...]
-      cidr: 10.10.10.0/24
-      dns_nameservers:
-        - 8.8.8.8
-      #enable_dhcp: Boolean
-      #gateway_ip: String
-      #host_routes: [{"destination": String, "nexthop": String}, {"destination": String, "nexthop": String}, ...]
-      #ip_version: Integer
-      #ipv6_address_mode: String
-      #ipv6_ra_mode: String
-      name: demo_hot_subnet_private
-      network: { get_resource: demo_hot_net_private }
-      #prefixlen: Integer
-      #subnetpool: String
-      #tenant_id: String
-      #value_specs: {...}
-
-  demo_hot_router:
-    type: OS::Neutron::Router
-    properties:
-      #admin_state_up: Boolean
-      #distributed: Boolean
-      #external_gateway_info: {"network": String, "enable_snat": Boolean}
-      external_gateway_info:
-        network: { get_param: public_network }
-      #ha: Boolean
-      #l3_agent_ids: [String, String, ...]
-      name: demo_hot_router
-      #value_specs: {...}
-
-  router-interface:
-    type: OS::Neutron::RouterInterface
-    properties:
-      #port: String
-      router: { get_resource: demo_hot_router }
-      subnet: { get_resource: demo_hot_subnet_private }
-
   demo_hot_i1_port:
     type: OS::Neutron::Port
     properties:
@@ -93,7 +40,7 @@ resources:
       #device_owner: String
       #fixed_ips: [{"subnet_id": String, "subnet": String, "ip_address": String}, {"subnet_id": String, "subnet": String, "ip_address": String}, ...]
       name: demo_hot_i1_port
-      network: { get_resource: demo_hot_net_private }
+      network: { get_param: private_network }
       #replacement_policy: String
       #security_groups: [Value, Value, ...]
       security_groups:
