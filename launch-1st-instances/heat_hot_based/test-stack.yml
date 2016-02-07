@@ -24,7 +24,9 @@ resources:
   demo_hot_ping_ssh_security_group:
     type: OS::Neutron::SecurityGroup
     properties:
+      #description: String
       name: demo_hot_ping_ssh_security_group
+      #rules: [{"remote_group_id": String, "port_range_max": Integer, "remote_ip_prefix": String, "protocol": String, "ethertype": String, "port_range_min": Integer, "remote_mode": String, "direction": String}, {"remote_group_id": String, "port_range_max": Integer, "remote_ip_prefix": String, "protocol": String, "ethertype": String, "port_range_min": Integer, "remote_mode": String, "direction": String}, ...]
       rules:
         - protocol: icmp
         - protocol: tcp
@@ -51,7 +53,7 @@ resources:
       cidr: 10.10.10.0/24
       dns_nameservers:
         - 8.8.8.8
-      enable_dhcp: False
+      #enable_dhcp: Boolean
       #gateway_ip: String
       #host_routes: [{"destination": String, "nexthop": String}, {"destination": String, "nexthop": String}, ...]
       #ip_version: Integer
