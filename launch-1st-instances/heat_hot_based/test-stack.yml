@@ -20,6 +20,18 @@ parameters:
     default: public
 
 resources:
+
+  demo_hot_ping_ssh_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: demo_hot_ping_ssh_security_group
+      rules:
+        - protocol: icmp
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+
+
   demo_hot_net_private:
     type: OS::Neutron::Net
     properties:
@@ -82,6 +94,8 @@ resources:
       network: { get_resource: demo_hot_net_private }
       #replacement_policy: String
       #security_groups: [Value, Value, ...]
+      security_groups:
+        - { get_resource: demo_hot_ping_ssh_security_group }
 
   demo_hot_i1:
     type: OS::Nova::Server
@@ -106,8 +120,8 @@ resources:
       #reservation_id: String
       #scheduler_hints: {...}
       #security_groups: [Value, Value, ...]
-      security_groups:
-        - { get_resource: ALL }
+      #security_groups:
+      #  - { get_resource: demo_hot_ping_ssh_security_group }
       #software_config_transport: String
       #user_data: String
       #user_data_format: String
