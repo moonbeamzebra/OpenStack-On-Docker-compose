@@ -18,6 +18,11 @@ parameters:
     label: Private network name or ID
     description: Private network.
     default: private
+  public_network:
+    type: string
+    label: Public network name or ID
+    description: Public network with floating IP addresses.
+    default: public    
 
 resources:
 
