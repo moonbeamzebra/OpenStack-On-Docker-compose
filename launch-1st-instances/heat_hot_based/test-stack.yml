@@ -1,0 +1,137 @@
+heat_template_version: 2015-04-30
+description: A simple server.
+
+# SEE:
+# http://docs.openstack.org/developer/heat/template_guide/index.html
+
+parameters:
+  image_id:
+    type: string
+    description: Image use to boot a server
+    default: cirros
+  flavor_id:
+    type: string
+    description: Flavor use to boot a server
+    default: m1.tiny
+  public_network:
+    type: string
+    label: Public network name or ID
+    description: Public network with floating IP addresses.
+    default: public
+
+resources:
+  demo_hot_net_private:
+    type: OS::Neutron::Net
+    properties:
+      #admin_state_up: Boolean
+      #dhcp_agent_ids: [Value, Value, ...]
+      name: demo_hot_net_private
+      #port_security_enabled: Boolean
+      #qos_policy: String
+      #shared: Boolean
+      #tenant_id: String
+      #value_specs: {...}
+
+  demo_hot_subnet_private:
+    type: OS::Neutron::Subnet
+    properties:
+      #allocation_pools: [{"start": String, "end": String}, {"start": String, "end": String}, ...]
+      cidr: 10.10.10.0/24
+      dns_nameservers:
+        - 8.8.8.8
+      enable_dhcp: False
+      #gateway_ip: String
+      #host_routes: [{"destination": String, "nexthop": String}, {"destination": String, "nexthop": String}, ...]
+      #ip_version: Integer
+      #ipv6_address_mode: String
+      #ipv6_ra_mode: String
+      name: demo_hot_subnet_private
+      network: { get_resource: private_network }
+      #prefixlen: Integer
+      #subnetpool: String
+      #tenant_id: String
+      #value_specs: {...}
+
+  demo_hot_router:
+    type: OS::Neutron::Router
+    properties:
+      #admin_state_up: Boolean
+      #distributed: Boolean
+      #external_gateway_info: {"network": String, "enable_snat": Boolean}
+      external_gateway_info:
+        network: { get_param: public_network }
+      #ha: Boolean
+      #l3_agent_ids: [String, String, ...]
+      name: demo_hot_router
+      #value_specs: {...}
+
+  router-interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      #port: String
+      router: { get_resource: demo_hot_router }
+      subnet: { get_resource: demo_hot_subnet_private }
+
+  demo_hot_i1_port:
+    type: OS::Neutron::Port
+    properties:
+      #device_id: String
+      #device_owner: String
+      #fixed_ips: [{"subnet_id": String, "subnet": String, "ip_address": String}, {"subnet_id": String, "subnet": String, "ip_address": String}, ...]
+      name: demo_hot_i1_port
+      network: { get_resource: demo_hot_net_private }
+      #replacement_policy: String
+      #security_groups: [Value, Value, ...]
+      security_groups:
+        - { get_resource: ALL }
+
+  demo_hot_i1:
+    type: OS::Nova::Server
+    properties:
+      #admin_pass: String
+      #availability_zone: String
+      #block_device_mapping: [{"volume_size": Integer, "snapshot_id": String, "delete_on_termination": Boolean, "volume_id": String, "device_name": String}, {"volume_size": Integer, "snapshot_id": String, "delete_on_termination": Boolean, "volume_id": String, "device_name": String}, ...]
+      #block_device_mapping_v2: [{"volume_size": Integer, "disk_bus": String, "snapshot_id": String, "delete_on_termination": Boolean, "volume_id": String, "device_name": String, "swap_size": Integer, "boot_index": Integer, "device_type": String, "image_id": String}, {"volume_size": Integer, "disk_bus": String, "snapshot_id": String, "delete_on_termination": Boolean, "volume_id": String, "device_name": String, "swap_size": Integer, "boot_index": Integer, "device_type": String, "image_id": String}, ...]
+      #config_drive: Boolean
+      #diskConfig: String
+      flavor: { get_param: flavor_id }
+      #flavor_update_policy: String
+      image: { get_param: image_id }
+      #image_update_policy: String
+      #key_name: String
+      #metadata: {...}
+      name: demo_hot_i1
+      #networks: [{"network": String, "uuid": String, "fixed_ip": String, "port": String, "subnet": String, "port_extra_properties": {"qos_policy": String, "mac_address": String, "binding:vnic_type": String, "admin_state_up": Boolean, "port_security_enabled": Boolean, "value_specs": {...}, "allowed_address_pairs": [{"mac_address": String, "ip_address": String}, {"mac_address": String, "ip_address": String}, ...]}}, {"network": String, "uuid": String, "fixed_ip": String, "port": String, "subnet": String, "port_extra_properties": {"qos_policy": String, "mac_address": String, "binding:vnic_type": String, "admin_state_up": Boolean, "port_security_enabled": Boolean, "value_specs": {...}, "allowed_address_pairs": [{"mac_address": String, "ip_address": String}, {"mac_address": String, "ip_address": String}, ...]}}, ...]
+      networks:
+        - port: { get_resource: demo_hot_i1_port }
+      #personality: {...}
+      #reservation_id: String
+      #scheduler_hints: {...}
+      #security_groups: [Value, Value, ...]
+      #software_config_transport: String
+      #user_data: String
+      #user_data_format: String
+
+  demo_hot_i1_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      #fixed_ip_address: String
+      #floating_ip_address: String
+      floating_network: { get_param: public_network }
+      #port_id: String
+      #value_specs: {...}
+
+  demo_hot_i1_floating_ip_assoc:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      #fixed_ip_address: String
+      floatingip_id: { get_resource: demo_hot_i1_floating_ip }
+      port_id: { get_resource: demo_hot_i1_port }
+
+outputs:
+  public_ip:
+    description: The floating IP address of the deployed instance
+    value: { get_attr: [demo_hot_i1_floating_ip, floating_ip_address] }
+  private_ip:
+    description: IP address of demo_hot_i1 in the private network
+    value: { get_attr: [ demo_hot_i1, first_address ] }
