@@ -22,7 +22,7 @@ parameters:
     type: string
     label: Public network name or ID
     description: Public network with floating IP addresses.
-    default: public    
+    default: public
 
 resources:
 
@@ -79,6 +79,29 @@ resources:
       #software_config_transport: String
       #user_data: String
       #user_data_format: String
+      #user_data:
+      #  get_file: my_instance_user_data.sh
+      user_data: |
+        #cloud-config
+
+        timezone: Canada/Eastern
+        apt_update: true
+        manage_etc_hosts: true
+        ssh_pwauth: True
+
+
+        users:
+          - name: osu
+            gecos: osu
+            groups: sudo
+            sudo: ALL=(ALL) NOPASSWD:ALL
+            shell: /bin/bash
+            passwd: $6$m/ToT80gpHPZka$2EaO1TYTpEcDKwNe/wBP3jnINtGQxNv0c4AcsTTpKlihHC9I7r/yactnYZER6.yn0jRO8zP9oB8t.TlSz8atp.
+            lock-passwd: false
+
+        packages:
+         - htop
+
 
   demo_hot_i1_floating_ip:
     type: OS::Neutron::FloatingIP
