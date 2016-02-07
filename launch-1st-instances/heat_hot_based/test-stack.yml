@@ -82,8 +82,6 @@ resources:
       network: { get_resource: demo_hot_net_private }
       #replacement_policy: String
       #security_groups: [Value, Value, ...]
-      security_groups:
-        - { get_resource: ALL }
 
   demo_hot_i1:
     type: OS::Nova::Server
@@ -108,6 +106,8 @@ resources:
       #reservation_id: String
       #scheduler_hints: {...}
       #security_groups: [Value, Value, ...]
+      security_groups:
+        - { get_resource: ALL }
       #software_config_transport: String
       #user_data: String
       #user_data_format: String
