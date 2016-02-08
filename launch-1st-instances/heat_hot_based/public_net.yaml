@@ -18,7 +18,8 @@ resources:
   subnet:
     type: OS::Neutron::Subnet
     properties:
-      allocation_pools: [{"start": String, "end": String}, {"start": String, "end": String}, ...]
+      #allocation_pools: [{"start": String, "end": String}, {"start": String, "end": String}, ...]
+      allocation_pools:
         - start: 10.199.5.80
           end: 10.199.5.89
       cidr: 10.199.5.0/24
