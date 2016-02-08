@@ -8,7 +8,7 @@ resources:
   network:
     type: OS::Neutron::ProviderNet
     properties:
-      admin_state_up: Boolean
+      #admin_state_up: Boolean
       name: public
       network_type: flat
       physical_network: external
