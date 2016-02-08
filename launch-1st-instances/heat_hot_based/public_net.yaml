@@ -1,0 +1,38 @@
+heat_template_version: 2015-04-30
+description: Private demo network.
+
+# SEE:
+# http://docs.openstack.org/developer/heat/template_guide/index.html
+
+resources:
+  network:
+    type: OS::Neutron::ProviderNet
+        properties:
+          admin_state_up: Boolean
+          name: public
+          network_type: flat
+          physical_network: external
+          #segmentation_id: String
+          shared: True
+
+  subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      allocation_pools: [{"start": String, "end": String}, {"start": String, "end": String}, ...]
+        - start: 10.199.5.80
+          end: 10.199.5.89
+      cidr: 10.199.5.0/24
+      dns_nameservers:
+        - 8.8.8.8
+      #enable_dhcp: Boolean
+      gateway_ip: 10.199.5.1
+      #host_routes: [{"destination": String, "nexthop": String}, {"destination": String, "nexthop": String}, ...]
+      #ip_version: Integer
+      #ipv6_address_mode: String
+      #ipv6_ra_mode: String
+      name: public
+      network: { get_resource: network }
+      #prefixlen: Integer
+      #subnetpool: String
+      #tenant_id: String
+      #value_specs: {...}
