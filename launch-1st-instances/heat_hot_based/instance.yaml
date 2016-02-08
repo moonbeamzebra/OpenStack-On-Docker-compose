@@ -5,6 +5,10 @@ description: A simple server.
 # http://docs.openstack.org/developer/heat/template_guide/index.html
 
 parameters:
+  instance_name:
+    type: string
+    description: Instance name
+    default: i00
   image_id:
     type: string
     description: Image use to boot a server
@@ -12,6 +16,10 @@ parameters:
   flavor_id:
     type: string
     description: Flavor use to boot a server
+    default: m1.tiny
+  secgroup_id:
+    type: string
+    description: Security group use to boot a server
     default: m1.tiny
   private_network:
     type: string
@@ -26,32 +34,20 @@ parameters:
 
 resources:
 
-  demo_hot_ping_ssh_security_group:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      #description: String
-      name: demo_hot_ping_ssh_security_group
-      #rules: [{"remote_group_id": String, "port_range_max": Integer, "remote_ip_prefix": String, "protocol": String, "ethertype": String, "port_range_min": Integer, "remote_mode": String, "direction": String}, {"remote_group_id": String, "port_range_max": Integer, "remote_ip_prefix": String, "protocol": String, "ethertype": String, "port_range_min": Integer, "remote_mode": String, "direction": String}, ...]
-      rules:
-        - protocol: icmp
-        - protocol: tcp
-          port_range_min: 22
-          port_range_max: 22
-
-  demo_hot_i1_port:
+  server_port:
     type: OS::Neutron::Port
     properties:
       #device_id: String
       #device_owner: String
       #fixed_ips: [{"subnet_id": String, "subnet": String, "ip_address": String}, {"subnet_id": String, "subnet": String, "ip_address": String}, ...]
-      name: demo_hot_i1_port
+      name: demo_hot_port
       network: { get_param: private_network }
       #replacement_policy: String
       #security_groups: [Value, Value, ...]
       security_groups:
-        - { get_resource: demo_hot_ping_ssh_security_group }
+        - { get_param: secgroup_id }
 
-  demo_hot_i1:
+  server:
     type: OS::Nova::Server
     properties:
       #admin_pass: String
@@ -66,16 +62,16 @@ resources:
       #image_update_policy: String
       #key_name: String
       #metadata: {...}
-      name: demo_hot_i1
+      name: { get_param: instance_name }
       #networks: [{"network": String, "uuid": String, "fixed_ip": String, "port": String, "subnet": String, "port_extra_properties": {"qos_policy": String, "mac_address": String, "binding:vnic_type": String, "admin_state_up": Boolean, "port_security_enabled": Boolean, "value_specs": {...}, "allowed_address_pairs": [{"mac_address": String, "ip_address": String}, {"mac_address": String, "ip_address": String}, ...]}}, {"network": String, "uuid": String, "fixed_ip": String, "port": String, "subnet": String, "port_extra_properties": {"qos_policy": String, "mac_address": String, "binding:vnic_type": String, "admin_state_up": Boolean, "port_security_enabled": Boolean, "value_specs": {...}, "allowed_address_pairs": [{"mac_address": String, "ip_address": String}, {"mac_address": String, "ip_address": String}, ...]}}, ...]
       networks:
-        - port: { get_resource: demo_hot_i1_port }
+        - port: { get_resource: server_port }
       #personality: {...}
       #reservation_id: String
       #scheduler_hints: {...}
       #security_groups: [Value, Value, ...]
       #security_groups:
-      #  - { get_resource: demo_hot_ping_ssh_security_group }
+      #  - { get_resource: server_ping_ssh_security_group }
       #software_config_transport: String
       #user_data: String
       #user_data_format: String
@@ -83,7 +79,7 @@ resources:
         get_file: ../user_data_ubuntu.txt
       user_data_format: RAW
 
-  demo_hot_i1_floating_ip:
+  server_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       #fixed_ip_address: String
@@ -92,17 +88,17 @@ resources:
       #port_id: String
       #value_specs: {...}
 
-  demo_hot_i1_floating_ip_assoc:
+  server_floating_ip_assoc:
     type: OS::Neutron::FloatingIPAssociation
     properties:
       #fixed_ip_address: String
-      floatingip_id: { get_resource: demo_hot_i1_floating_ip }
-      port_id: { get_resource: demo_hot_i1_port }
+      floatingip_id: { get_resource: server_floating_ip }
+      port_id: { get_resource: server_port }
 
 outputs:
   public_ip:
     description: The floating IP address of the deployed instance
-    value: { get_attr: [demo_hot_i1_floating_ip, floating_ip_address] }
+    value: { get_attr: [server_floating_ip, floating_ip_address] }
   private_ip:
-    description: IP address of demo_hot_i1 in the private network
-    value: { get_attr: [ demo_hot_i1, first_address ] }
+    description: IP address of server in the private network
+    value: { get_attr: [ server, first_address ] }
