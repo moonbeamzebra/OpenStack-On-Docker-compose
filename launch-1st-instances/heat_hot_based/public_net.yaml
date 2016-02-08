@@ -16,7 +16,7 @@ resources:
 #      shared: True
 
   network:
-    type": OS::Neutron::Net
+    type: OS::Neutron::Net
     properties:
       #admin_state_up: Boolean
       name: public
