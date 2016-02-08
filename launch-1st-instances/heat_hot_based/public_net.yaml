@@ -5,8 +5,18 @@ description: Private demo network.
 # http://docs.openstack.org/developer/heat/template_guide/index.html
 
 resources:
+#  network:
+#    type: OS::Neutron::ProviderNet
+#    properties:
+#      #admin_state_up: Boolean
+#      name: public
+#      network_type: flat
+#      physical_network: external
+#      #segmentation_id: String
+#      shared: True
+
   network:
-    type: OS::Neutron::ProviderNet
+    type": OS::Neutron::Net
     properties:
       #admin_state_up: Boolean
       name: public
@@ -14,6 +24,10 @@ resources:
       physical_network: external
       #segmentation_id: String
       shared: True
+      value_specs:
+        provider:network_type: flat
+        provider:physical_network: external
+        router:external: true
 
   subnet:
     type: OS::Neutron::Subnet
