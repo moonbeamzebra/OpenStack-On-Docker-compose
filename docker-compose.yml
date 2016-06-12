@@ -1,6 +1,6 @@
-openstack-rabbitmq:
+mitaka-rabbitmq:
   image: rabbitmq:3
-  container_name: openstack-rabbitmq
+  container_name: mitaka-rabbitmq
   hostname: rabbitmq
   ports:
     - "5672:5672"
@@ -19,9 +19,9 @@ openstack-rabbitmq:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-mariadb:
+mitaka-mariadb:
   build: dockerfiles/mariadb
-  container_name: openstack-mariadb
+  container_name: mitaka-mariadb
   hostname: mariadb
   ports:
     - "3306:3306"
@@ -43,9 +43,9 @@ openstack-mariadb:
     - "mysql-host:10.199.1.220"
 
 
-openstack-keystone:
+mitaka-keystone:
   build: dockerfiles/keystone
-  container_name: openstack-keystone
+  container_name: mitaka-keystone
   hostname: keystone
   ports:
     - "5000:5000"
@@ -53,7 +53,7 @@ openstack-keystone:
   env_file:
     - ./env.list
   links:
-    - openstack-mariadb
+    - mitaka-mariadb
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
@@ -70,16 +70,16 @@ openstack-keystone:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-glance:
+mitaka-glance:
   build: dockerfiles/glance
-  container_name: openstack-glance
+  container_name: mitaka-glance
   hostname: glance
   ports:
     - "9292:9292"
   env_file:
     - ./env.list
   links:
-    - openstack-keystone
+    - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
@@ -96,9 +96,9 @@ openstack-glance:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-nova:
+mitaka-nova:
   build: dockerfiles/nova
-  container_name: openstack-nova
+  container_name: mitaka-nova
   hostname: nova
   privileged: true
   ports:
@@ -108,7 +108,7 @@ openstack-nova:
   env_file:
     - ./env.list
   links:
-    - openstack-keystone
+    - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
@@ -125,16 +125,16 @@ openstack-nova:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-neutron:
+mitaka-neutron:
   build: dockerfiles/neutron
-  container_name: openstack-neutron
+  container_name: mitaka-neutron
   hostname: neutron
   ports:
     - "9696:9696"
   env_file:
     - ./env.list
   links:
-    - openstack-keystone
+    - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
@@ -151,9 +151,9 @@ openstack-neutron:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-heat:
+mitaka-heat:
   build: dockerfiles/heat
-  container_name: openstack-heat
+  container_name: mitaka-heat
   hostname: heat
   ports:
     - "8000:8000"
@@ -161,7 +161,7 @@ openstack-heat:
   env_file:
     - ./env.list
   links:
-    - openstack-keystone
+    - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
@@ -178,10 +178,10 @@ openstack-heat:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-clients:
+mitaka-clients:
   build: dockerfiles/openstack_clients
-  container_name: openstack-clients
-  hostname: openstack-clients
+  container_name: mitaka-clients
+  hostname: mitaka-clients
   ports:
     - "22222:22"
   env_file:
@@ -200,9 +200,9 @@ openstack-clients:
     - "mysql-host:10.199.1.220"
 
 
-openstack-horizon:
+mitaka-horizon:
   build: dockerfiles/horizon
-  container_name: openstack-horizon
+  container_name: mitaka-horizon
   hostname: horizon
   ports:
     - "8888:80"
@@ -221,9 +221,9 @@ openstack-horizon:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-ceilometer:
+mitaka-ceilometer:
   build: dockerfiles/ceilometer
-  container_name: openstack-ceilometer
+  container_name: mitaka-ceilometer
   hostname: ceilometer
   ports:
     - "8777:8777"
@@ -245,9 +245,9 @@ openstack-ceilometer:
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
 
-openstack-mongodb:
+mitaka-mongodb:
   build: dockerfiles/mongodb
-  container_name: openstack-mongodb
+  container_name: mitaka-mongodb
   hostname: mongodb
   ports:
     - "27017:27017"
