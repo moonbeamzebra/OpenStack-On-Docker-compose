@@ -11,8 +11,7 @@ RUN apt-get update && apt-get install -y \
 
 ## Get the packages
 RUN apt-get install software-properties-common -y
-RUN add-apt-repository cloud-archive:liberty -y
+RUN add-apt-repository cloud-archive:mitaka -y
 RUN apt-get update -y
-
 
 RUN apt-get install -y python-openstackclient
