@@ -1,5 +1,7 @@
 # OpenStack-On-Docker-compose
 
+Branch stable/liberty
+
 
 *******
 ##LICENSE
