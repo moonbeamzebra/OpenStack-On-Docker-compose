@@ -1,6 +1,6 @@
 # OpenStack-On-Docker-compose
 
-Branch stable/liberty
+Branch mitaka
 
 
 *******
