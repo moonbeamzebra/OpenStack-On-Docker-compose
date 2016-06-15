@@ -30,6 +30,8 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone 2>&1 > /var/log/keystone/key
 
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 
+ echo "ServerName `hostname`" >> /etc/apache2/apache2.conf
+
 cat <<EOF > /etc/apache2/sites-available/wsgi-keystone.conf
 Listen 5000
 Listen 35357
