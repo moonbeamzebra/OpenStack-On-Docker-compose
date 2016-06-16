@@ -33,7 +33,8 @@ EOF
 
 source /admin-openrc.sh
 
-echo "CREATE DATABASE neutron;
+echo "DROP DATABASE IF EXISTS neutron;
+CREATE DATABASE neutron;
 GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
   IDENTIFIED BY '$NEUTRON_DBPASS';
 GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
