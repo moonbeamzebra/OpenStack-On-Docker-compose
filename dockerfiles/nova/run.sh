@@ -8,7 +8,7 @@ crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $NOVA_ET
 
 
 service nova-api restart
-service nova-cert restart
+#service nova-cert restart
 service nova-consoleauth restart
 service nova-scheduler restart
 service nova-conductor restart
