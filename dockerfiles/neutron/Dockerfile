@@ -1,10 +1,11 @@
 FROM openstack-base
 
-ENV DEBIAN_FRONTEND noninteractive 
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get install -y \
     neutron-server \
     neutron-plugin-ml2 \
+    python-memcache \
     python-neutronclient
 
 ADD setup.sh setup.sh
