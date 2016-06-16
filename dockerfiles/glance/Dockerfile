@@ -1,8 +1,8 @@
 FROM openstack-base
 
-ENV DEBIAN_FRONTEND noninteractive 
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get install -y glance python-glanceclient python-swiftclient
+RUN apt-get install -y glance python-glanceclient python-swiftclient  python-memcache
 
 
 ADD setup.sh setup.sh
