@@ -103,17 +103,17 @@ crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 crudini --set /etc/nova/nova.conf DEFAULT verbose True
 
 # NETRON serup
-#crudini --set /etc/nova/nova.conf neutron url http://$NEUTRON_HOST:9696
-#crudini --set /etc/nova/nova.conf neutron auth_url http://$KEYSTONE_HOST:35357
-#crudini --set /etc/nova/nova.conf neutron auth_plugin password
-#crudini --set /etc/nova/nova.conf neutron project_domain_id default
-#crudini --set /etc/nova/nova.conf neutron user_domain_id default
-#crudini --set /etc/nova/nova.conf neutron region_name $REGION1
-#crudini --set /etc/nova/nova.conf neutron project_name service
-#crudini --set /etc/nova/nova.conf neutron username neutron
-#crudini --set /etc/nova/nova.conf neutron password $NEUTRON_PASS
-#crudini --set /etc/nova/nova.conf neutron service_metadata_proxy True
-#crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret $METADATA_SECRET
+crudini --set /etc/nova/nova.conf neutron url http://$NEUTRON_HOST:9696
+crudini --set /etc/nova/nova.conf neutron auth_url http://$KEYSTONE_HOST:35357
+crudini --set /etc/nova/nova.conf neutron auth_type password
+crudini --set /etc/nova/nova.conf neutron project_domain_name default
+crudini --set /etc/nova/nova.conf neutron user_domain_name default
+crudini --set /etc/nova/nova.conf neutron region_name $REGION1
+crudini --set /etc/nova/nova.conf neutron project_name service
+crudini --set /etc/nova/nova.conf neutron username neutron
+crudini --set /etc/nova/nova.conf neutron password $NEUTRON_PASS
+crudini --set /etc/nova/nova.conf neutron service_metadata_proxy True
+crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret $METADATA_SECRET
 
 diff /etc/nova/nova.conf /etc/nova/nova.conf.bak
 
