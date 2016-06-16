@@ -7,8 +7,8 @@ then
 fi
 
 cat <<EOF > /admin-openrc.sh
-export OS_PROJECT_DOMAIN_ID=default
-export OS_USER_DOMAIN_ID=default
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=admin
 export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
@@ -19,8 +19,8 @@ export OS_IMAGE_API_VERSION=2
 EOF
 
 cat <<EOF > /demo-openrc.sh
-export OS_PROJECT_DOMAIN_ID=default
-export OS_USER_DOMAIN_ID=default
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=demo
 export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
@@ -59,7 +59,7 @@ openstack endpoint create --region $REGION1 \
 openstack endpoint create --region $REGION1 \
   network internal http://$NEUTRON_HOST:9696
 openstack endpoint create --region $REGION1 \
-  network admin http://$NEUTRON_HOST:9696      
+  network admin http://$NEUTRON_HOST:9696
 
 cp /etc/neutron/neutron.conf /etc/neutron/neutron.conf.bak
 crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:$NEUTRON_DBPASS@$MYSQLHOST/neutron
@@ -77,21 +77,22 @@ crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_password $R
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
-crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_plugin password
-crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_id default
-crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_id default
+crudini --set /etc/neutron/neutron.conf keystone_authtoken memcached_servers $KEYSTONE_HOST:11211
+crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_type password
+crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_name default
+crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_name default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
 crudini --set /etc/neutron/neutron.conf keystone_authtoken password $NEUTRON_PASS
 
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_changes True
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes True
-crudini --set /etc/neutron/neutron.conf DEFAULT nova_url http://$NOVA_HOST:8774/v2
+#crudini --set /etc/neutron/neutron.conf DEFAULT nova_url http://$NOVA_HOST:8774/v2
 
 crudini --set /etc/neutron/neutron.conf nova auth_url http://$KEYSTONE_HOST:35357
-crudini --set /etc/neutron/neutron.conf nova auth_plugin password
-crudini --set /etc/neutron/neutron.conf nova project_domain_id default
-crudini --set /etc/neutron/neutron.conf nova user_domain_id default
+crudini --set /etc/neutron/neutron.conf nova auth_type password
+crudini --set /etc/neutron/neutron.conf nova project_domain_name default
+crudini --set /etc/neutron/neutron.conf nova user_domain_name default
 crudini --set /etc/neutron/neutron.conf nova region_name $REGION1
 crudini --set /etc/neutron/neutron.conf nova project_name service
 crudini --set /etc/neutron/neutron.conf nova username nova
@@ -128,7 +129,7 @@ sleep 5
 
 su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
   --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" \
-  neutron 2>&1 > /var/log/neutron/neutron-manage.out 
+  neutron 2>&1 > /var/log/neutron/neutron-manage.out
 
 
 service neutron-server restart
