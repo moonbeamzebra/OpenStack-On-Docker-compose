@@ -5,5 +5,6 @@
 
 service neutron-server restart
 
-touch /var/log/neutron/neutron-server2.log
-tail -f /var/log/neutron/neutron-server2.log
+#touch /var/log/neutron/neutron-server2.log
+#tail -f /var/log/neutron/neutron-server2.log
+tail -F /var/log/neutron/neutron-server.log
