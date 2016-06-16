@@ -5,8 +5,8 @@ echo osu:osu1 | chpasswd
 adduser osu sudo
 
 cat <<EOF > /home/osu/admin-openrc.sh
-export OS_PROJECT_DOMAIN_ID=default
-export OS_USER_DOMAIN_ID=default
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=admin
 export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
@@ -20,8 +20,8 @@ cp /home/osu/admin-openrc.sh /
 chown osu:osu /home/osu/admin-openrc.sh
 
 cat <<EOF > /home/osu/demo-openrc.sh
-export OS_PROJECT_DOMAIN_ID=default
-export OS_USER_DOMAIN_ID=default
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=demo
 export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
