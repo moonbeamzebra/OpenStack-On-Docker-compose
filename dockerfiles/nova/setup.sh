@@ -86,9 +86,13 @@ crudini --set /etc/nova/nova.conf keystone_authtoken username nova
 crudini --set /etc/nova/nova.conf keystone_authtoken password $NOVA_PASS
 
 crudini --set /etc/nova/nova.conf DEFAULT my_ip $NOVA_HOST
-#crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
-#crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
-#crudini --set /etc/nova/nova.conf DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
+
+### ADDED FOR OVS
+crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
+crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
+crudini --set /etc/nova/nova.conf DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
+#################
+
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron True
 crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 
