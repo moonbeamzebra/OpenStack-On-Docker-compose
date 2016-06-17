@@ -47,6 +47,8 @@ echo 'OPENSTACK_API_VERSIONS = {
 
 echo 'OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"' >> /etc/openstack-dashboard/local_settings.py
 
+echo "ServerName `hostname`" >> /etc/apache2/apache2.conf
+
 
 
 touch /setup.done
