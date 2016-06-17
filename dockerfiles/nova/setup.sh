@@ -34,11 +34,13 @@ EOF
 source /admin-openrc.sh
 
 
-echo "CREATE DATABASE nova_api;
+echo "DROP DATABASE IF EXISTS nova_api;
+CREATE DATABASE nova_api;
 GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' \
   IDENTIFIED BY '$NOVA_DBPASS';
 GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' \
   IDENTIFIED BY '$NOVA_DBPASS';
+DROP DATABASE IF EXISTS nova;
 CREATE DATABASE nova;
 GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' \
     IDENTIFIED BY '$NOVA_DBPASS';
