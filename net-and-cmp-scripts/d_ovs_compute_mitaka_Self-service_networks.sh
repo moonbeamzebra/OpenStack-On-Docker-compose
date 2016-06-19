@@ -112,9 +112,10 @@ crudini --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_passw
 crudini --set /etc/ceilometer/ceilometer.conf DEFAULT auth_strategy keystone
 crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
 crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
-crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_plugin password
-crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken project_domain_id default
-crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken user_domain_id default
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken memcached_servers $KEYSTONE_HOST:11211
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken auth_type password
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken project_domain_name default
+crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken user_domain_name default
 crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken project_name service
 crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken username ceilometer
 crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken password $CEIL_PASS
@@ -122,8 +123,8 @@ crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_auth_url ht
 crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_username ceilometer
 crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_tenant_name service
 crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_password $CEIL_PASS
-crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_endpoint_type internalURL
-crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_region_name $REGION1
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials interface internalURL
+crudini --set /etc/ceilometer/ceilometer.conf service_credentials region_name $REGION1
 crudini --set /etc/ceilometer/ceilometer.conf DEFAULT verbose True
 
 diff /etc/ceilometer/ceilometer.conf /etc/ceilometer/ceilometer.conf.bak
