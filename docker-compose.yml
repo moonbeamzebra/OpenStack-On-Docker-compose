@@ -18,6 +18,7 @@ mitaka-rabbitmq:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-mariadb:
   build: dockerfiles/mariadb
@@ -41,6 +42,7 @@ mitaka-mariadb:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 
 mitaka-keystone:
@@ -69,6 +71,7 @@ mitaka-keystone:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-glance:
   build: dockerfiles/glance
@@ -95,6 +98,7 @@ mitaka-glance:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-nova:
   build: dockerfiles/nova
@@ -124,6 +128,7 @@ mitaka-nova:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-neutron:
   build: dockerfiles/neutron
@@ -150,6 +155,7 @@ mitaka-neutron:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-heat:
   build: dockerfiles/heat
@@ -177,6 +183,7 @@ mitaka-heat:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-clients:
   build: dockerfiles/openstack_clients
@@ -198,6 +205,7 @@ mitaka-clients:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 
 mitaka-horizon:
@@ -220,6 +228,7 @@ mitaka-horizon:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-ceilometer:
   build: dockerfiles/ceilometer
@@ -244,6 +253,7 @@ mitaka-ceilometer:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
 
 mitaka-mongodb:
   build: dockerfiles/mongodb
@@ -268,3 +278,4 @@ mitaka-mongodb:
     - "mongo-host:10.199.1.220"
     - "ceil-host:10.199.1.220"
     - "mysql-host:10.199.1.220"
+    - "aodh-host:10.199.1.220"
