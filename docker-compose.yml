@@ -7,18 +7,18 @@ mitaka-rabbitmq:
   env_file:
     - ./env.list
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-mariadb:
   build: dockerfiles/mariadb
@@ -31,18 +31,18 @@ mitaka-mariadb:
   env_file:
     - ./env.list
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 
 mitaka-keystone:
@@ -54,24 +54,24 @@ mitaka-keystone:
     - "35357:35357"
   env_file:
     - ./env.list
-  links:
-    - mitaka-mariadb
+  #links:
+  #  - mitaka-mariadb
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-glance:
   build: dockerfiles/glance
@@ -81,24 +81,24 @@ mitaka-glance:
     - "9292:9292"
   env_file:
     - ./env.list
-  links:
-    - mitaka-keystone
+  #links:
+  #  - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-nova:
   build: dockerfiles/nova
@@ -111,24 +111,24 @@ mitaka-nova:
     - "6080:6080"
   env_file:
     - ./env.list
-  links:
-    - mitaka-keystone
+  #links:
+  #  - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-neutron:
   build: dockerfiles/neutron
@@ -138,24 +138,24 @@ mitaka-neutron:
     - "9696:9696"
   env_file:
     - ./env.list
-  links:
-    - mitaka-keystone
+  #links:
+  #  - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-heat:
   build: dockerfiles/heat
@@ -166,24 +166,24 @@ mitaka-heat:
     - "8004:8004"
   env_file:
     - ./env.list
-  links:
-    - mitaka-keystone
+  #links:
+  #  - mitaka-keystone
   environment:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-clients:
   build: dockerfiles/openstack_clients
@@ -194,18 +194,18 @@ mitaka-clients:
   env_file:
     - ./env.list
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 
 mitaka-horizon:
@@ -217,18 +217,18 @@ mitaka-horizon:
   env_file:
     - ./env.list
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-ceilometer:
   build: dockerfiles/ceilometer
@@ -242,18 +242,18 @@ mitaka-ceilometer:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
 
 mitaka-mongodb:
   build: dockerfiles/mongodb
@@ -267,15 +267,15 @@ mitaka-mongodb:
     - WAIT_SLEEP=1
     - WAIT_LOOPS=100
   extra_hosts:
-    - "rabbit-host:10.199.1.220"
-    - "keystone-host:10.199.1.220"
-    - "horizon-host:10.199.1.220"
-    - "cinder-host:10.199.1.220"
-    - "glance-host:10.199.1.220"
-    - "nova-host:10.199.1.220"
-    - "neutron-host:10.199.1.220"
-    - "heat-host:10.199.1.220"
-    - "mongo-host:10.199.1.220"
-    - "ceil-host:10.199.1.220"
-    - "mysql-host:10.199.1.220"
-    - "aodh-host:10.199.1.220"
+    - "rabbit-host:10.10.10.10"
+    - "keystone-host:10.10.10.10"
+    - "horizon-host:10.10.10.10"
+    - "cinder-host:10.10.10.10"
+    - "glance-host:10.10.10.10"
+    - "nova-host:10.10.10.10"
+    - "neutron-host:10.10.10.10"
+    - "heat-host:10.10.10.10"
+    - "mongo-host:10.10.10.10"
+    - "ceil-host:10.10.10.10"
+    - "mysql-host:10.10.10.10"
+    - "aodh-host:10.10.10.10"
