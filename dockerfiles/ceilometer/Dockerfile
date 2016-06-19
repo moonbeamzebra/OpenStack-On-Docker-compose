@@ -9,9 +9,17 @@ RUN apt-get install -y ceilometer-api \
                        ceilometer-collector \
                        ceilometer-agent-central \
                        ceilometer-agent-notification \
-                       ceilometer-alarm-evaluator \
-                       ceilometer-alarm-notifier \
                        python-ceilometerclient
+
+#Alarming service
+#TODO : make another container for it
+RUN apt-get install -y aodh-api \
+                       aodh-evaluator \
+                       aodh-notifier \
+                       aodh-listener \
+                       aodh-expirer \
+                       python-ceilometerclient
+
 
 
 ADD setup.sh setup.sh
@@ -34,6 +42,9 @@ RUN chmod +x wait_for_ks_admin_ep.sh && \
    chmod +x run.sh && \
    chmod +x setup.sh
 
-EXPOSE 8777 
+EXPOSE 8777
+
+#Alarming service
+EXPOSE 8042
 
 CMD ./setup.sh && sleep 5 && ./run.sh
