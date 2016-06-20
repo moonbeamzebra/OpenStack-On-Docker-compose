@@ -18,31 +18,31 @@ HEAT_PASS=heat1
 CEIL_PASS=lab1
 DEMO_PASS=demo
 METADATA_SECRET=metadata_secret1
-RABBIT_HOST=10.199.1.220
-KEYSTONE_HOST=10.199.1.220
-HORIZON_HOST=10.199.1.220
-CINDER_HOST=10.199.1.220
-GLANCE_HOST=10.199.1.220
-NOVA_HOST=10.199.1.220
-NEUTRON_HOST=10.199.1.220
-HEAT_HOST=10.199.1.220
-MONGO_HOST=10.199.1.220
-CEIL_HOST=10.199.1.220
-MYSQLHOST=10.199.1.220
+RABBIT_HOST=10.10.10.10
+KEYSTONE_HOST=10.10.10.10
+HORIZON_HOST=10.10.10.10
+CINDER_HOST=10.10.10.10
+GLANCE_HOST=10.10.10.10
+NOVA_HOST=10.10.10.10
+NEUTRON_HOST=10.10.10.10
+HEAT_HOST=10.10.10.10
+MONGO_HOST=10.10.10.10
+CEIL_HOST=10.10.10.10
+MYSQLHOST=10.10.10.10
 REGION1=RegionOne
-NET_OVERLAY_INTERFACE_IP_ADDRESS=10.199.5.221
+NET_OVERLAY_INTERFACE_IP_ADDRESS=10.10.11.11
 NET_PUBLIC_INTERFACE_NAME=eth2
 
 ## Get the packages
 apt-get install software-properties-common -y
-add-apt-repository cloud-archive:liberty -y
+add-apt-repository cloud-archive:mitaka -y
 
 
 #apt-get update && apt-get dist-upgrade -y
 apt-get update -y
 apt-get -y install crudini curl
 
-cp /etc/sysctl.conf /etc/sysctl.conf.bak 
+cp /etc/sysctl.conf /etc/sysctl.conf.bak
 cat <<EOF >> /etc/sysctl.conf
 net.ipv4.ip_forward=1
 net.ipv4.conf.default.rp_filter=0
@@ -55,17 +55,13 @@ neutron-plugin-ml2 \
 neutron-plugin-openvswitch-agent \
 neutron-l3-agent \
 neutron-dhcp-agent \
-neutron-metadata-agent
+neutron-metadata-agent \
+python-memcache
 
 
 cp /etc/neutron/neutron.conf /etc/neutron/neutron.conf.bak
 
-crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
-crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
-crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips True
-
 crudini --set /etc/neutron/neutron.conf DEFAULT rpc_backend rabbit
-
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_password $RABBITMQ_DEFAULT_PASS
@@ -73,12 +69,20 @@ crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_password $R
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
-crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_plugin password
-crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_id default
-crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_id default
+crudini --set /etc/neutron/neutron.conf keystone_authtoken memcached_servers $KEYSTONE_HOST:11211
+crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_type password
+crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_name default
+crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_name default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
 crudini --set /etc/neutron/neutron.conf keystone_authtoken password $NEUTRON_PASS
+
+
+crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
+crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
+crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips True
+
+
 
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_changes True
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes True
@@ -150,7 +154,7 @@ crudini --set /etc/neutron/dhcp_agent.ini DEFAULT verbose True
 crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dnsmasq_config_file /etc/neutron/dnsmasq-neutron.conf
 diff /etc/neutron/dhcp_agent.ini  /etc/neutron/dhcp_agent.ini.bak
 
-echo "dhcp-option-force=26,1450" >> /etc/neutron/dnsmasq-neutron.conf 
+echo "dhcp-option-force=26,1450" >> /etc/neutron/dnsmasq-neutron.conf
 
 sleep 5
 
@@ -179,5 +183,3 @@ service neutron-plugin-openvswitch-agent restart
 service neutron-l3-agent restart
 service neutron-dhcp-agent restart
 service neutron-metadata-agent restart
-
-

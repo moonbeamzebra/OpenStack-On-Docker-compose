@@ -49,7 +49,8 @@ apt-get -y install crudini curl
 apt-get install -y \
                    nova-compute \
                    sysfsutils \
-                   ceilometer-agent-compute
+                   ceilometer-agent-compute \
+                   python-memcache
 
 
 cp /etc/nova/nova.conf /etc/nova/nova.conf.bak
