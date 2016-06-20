@@ -152,26 +152,29 @@ sysctl -p
 apt-get install -y neutron-plugin-ml2 neutron-plugin-openvswitch-agent
 
 cp /etc/neutron/neutron.conf  /etc/neutron/neutron.conf .bak
-crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
-crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
-crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips True
-
 crudini --set /etc/neutron/neutron.conf DEFAULT rpc_backend rabbit
-crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
-crudini --set /etc/neutron/neutron.conf DEFAULT verbose True
-
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_password $RABBITMQ_DEFAULT_PASS
 
+crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://$KEYSTONE_HOST:5000
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_url http://$KEYSTONE_HOST:35357
-crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_plugin password
-crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_id default
-crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_id default
+crudini --set /etc/neutron/neutron.conf keystone_authtoken memcached_servers $KEYSTONE_HOST:11211
+crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_type password
+crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_name default
+crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_name default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
 crudini --set /etc/neutron/neutron.conf keystone_authtoken password $NEUTRON_PASS
+
+crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
+crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
+crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips True
+
+crudini --set /etc/neutron/neutron.conf DEFAULT verbose True
+
+
 diff /etc/neutron/neutron.conf /etc/neutron/neutron.conf.bak
 
 sleep 5
