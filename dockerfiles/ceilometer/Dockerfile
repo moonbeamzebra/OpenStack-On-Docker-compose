@@ -3,7 +3,8 @@ FROM openstack-base
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y mongodb-clients \
-                                         python-pymongo
+                                         python-pymongo \
+                                         python-memcache
 
 RUN apt-get install -y ceilometer-api \
                        ceilometer-collector \
