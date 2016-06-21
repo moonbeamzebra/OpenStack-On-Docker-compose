@@ -1,16 +1,17 @@
 FROM openstack-base
 
-ENV DEBIAN_FRONTEND noninteractive 
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y install ssh \
                                          git \
                                          python-heatclient \
-					 python-ceilometerclient
+					 python-ceilometerclient \
+           vim
 
 ADD setup.sh setup.sh
 ADD run.sh run.sh
 
-RUN chmod +x setup.sh && chmod +x run.sh 
+RUN chmod +x setup.sh && chmod +x run.sh
 
 EXPOSE 22
 
