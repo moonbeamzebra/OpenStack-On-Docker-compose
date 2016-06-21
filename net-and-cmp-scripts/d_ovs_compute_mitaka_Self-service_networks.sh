@@ -213,4 +213,4 @@ service ceilometer-agent-compute restart
 
 service nova-compute restart
 
-service neutron-plugin-openvswitch-agent restart
+service neutron-openvswitch-agent restart
