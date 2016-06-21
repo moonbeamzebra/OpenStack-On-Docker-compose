@@ -75,7 +75,7 @@ rm -f /var/lib/keystone/keystone.db
 sleep 5
 
 export OS_TOKEN=$ADMIN_TOKEN
-export OS_URL=http://$KEYSTONE_HOST:35357/v3
+export OS_URL=http://127.0.0.1:35357/v3
 export OS_IDENTITY_API_VERSION=3
 
 openstack service create \
