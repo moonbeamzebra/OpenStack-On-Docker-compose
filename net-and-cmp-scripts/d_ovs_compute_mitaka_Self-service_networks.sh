@@ -152,7 +152,7 @@ sysctl -p
 
 apt-get install -y neutron-plugin-ml2 neutron-plugin-openvswitch-agent
 
-cp /etc/neutron/neutron.conf  /etc/neutron/neutron.conf .bak
+cp /etc/neutron/neutron.conf  /etc/neutron/neutron.conf.bak
 crudini --set /etc/neutron/neutron.conf DEFAULT rpc_backend rabbit
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_host $RABBIT_HOST
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_userid $RABBITMQ_DEFAULT_USER
