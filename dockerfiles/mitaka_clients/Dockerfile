@@ -1,4 +1,4 @@
-FROM openstack-base
+FROM mitaka-base
 
 ENV DEBIAN_FRONTEND noninteractive
 

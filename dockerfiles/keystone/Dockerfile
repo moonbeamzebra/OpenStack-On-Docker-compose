@@ -1,6 +1,6 @@
-FROM openstack-base
+FROM mitaka-base
 
-ENV DEBIAN_FRONTEND noninteractive 
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get install -y openssl
 

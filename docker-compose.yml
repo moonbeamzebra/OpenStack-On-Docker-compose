@@ -186,7 +186,7 @@ mitaka-heat:
     - "aodh-host:10.10.10.10"
 
 mitaka-clients:
-  build: dockerfiles/openstack_clients
+  build: dockerfiles/mitaka_clients
   container_name: mitaka-clients
   hostname: mitaka-clients
   ports:
