@@ -90,9 +90,9 @@ crudini --set /etc/nova/nova.conf keystone_authtoken password $NOVA_PASS
 crudini --set /etc/nova/nova.conf DEFAULT my_ip $NOVA_HOST
 
 ### ADDED FOR OVS
-crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
-crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
-crudini --set /etc/nova/nova.conf DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
+#crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
+#crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
+#crudini --set /etc/nova/nova.conf DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
 #################
 
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron True
@@ -101,14 +101,13 @@ crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.Noo
 crudini --set /etc/nova/nova.conf vnc vncserver_listen $NOVA_HOST
 crudini --set /etc/nova/nova.conf vnc vncserver_proxyclient_address $NOVA_HOST
 
-#crudini --set /etc/nova/nova.conf glance host $GLANCE_HOST
 crudini --set /etc/nova/nova.conf glance api_servers http://$GLANCE_HOST:9292
 
 crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 
 crudini --set /etc/nova/nova.conf DEFAULT verbose True
 
-# NETRON serup
+# NETRON setup
 crudini --set /etc/nova/nova.conf neutron url http://$NEUTRON_HOST:9696
 crudini --set /etc/nova/nova.conf neutron auth_url http://$KEYSTONE_HOST:35357
 crudini --set /etc/nova/nova.conf neutron auth_type password
