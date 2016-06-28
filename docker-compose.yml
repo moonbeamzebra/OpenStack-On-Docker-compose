@@ -130,32 +130,32 @@ mitaka-nova:
     - "mysql-host:10.10.10.10"
     - "aodh-host:10.10.10.10"
 
-mitaka-neutron:
-  build: dockerfiles/neutron
-  container_name: mitaka-neutron
-  hostname: neutron
-  ports:
-    - "9696:9696"
-  env_file:
-    - ./env.list
-  #links:
-  #  - mitaka-keystone
-  environment:
-    - WAIT_SLEEP=1
-    - WAIT_LOOPS=100
-  extra_hosts:
-    - "rabbit-host:10.10.10.10"
-    - "keystone-host:10.10.10.10"
-    - "horizon-host:10.10.10.10"
-    - "cinder-host:10.10.10.10"
-    - "glance-host:10.10.10.10"
-    - "nova-host:10.10.10.10"
-    - "neutron-host:10.10.10.10"
-    - "heat-host:10.10.10.10"
-    - "mongo-host:10.10.10.10"
-    - "ceil-host:10.10.10.10"
-    - "mysql-host:10.10.10.10"
-    - "aodh-host:10.10.10.10"
+#mitaka-neutron:
+#  build: dockerfiles/neutron
+#  container_name: mitaka-neutron
+#  hostname: neutron
+#  ports:
+#    - "9696:9696"
+#  env_file:
+#    - ./env.list
+#  #links:
+#  #  - mitaka-keystone
+#  environment:
+#    - WAIT_SLEEP=1
+#    - WAIT_LOOPS=100
+#  extra_hosts:
+#    - "rabbit-host:10.10.10.10"
+#    - "keystone-host:10.10.10.10"
+#    - "horizon-host:10.10.10.10"
+#    - "cinder-host:10.10.10.10"
+#    - "glance-host:10.10.10.10"
+#    - "nova-host:10.10.10.10"
+#    - "neutron-host:10.10.10.10"
+#    - "heat-host:10.10.10.10"
+#    - "mongo-host:10.10.10.10"
+#    - "ceil-host:10.10.10.10"
+#    - "mysql-host:10.10.10.10"
+#    - "aodh-host:10.10.10.10"
 
 mitaka-heat:
   build: dockerfiles/heat
