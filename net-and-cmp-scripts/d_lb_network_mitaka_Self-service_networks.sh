@@ -24,12 +24,14 @@ HORIZON_HOST=10.10.10.10
 CINDER_HOST=10.10.10.10
 GLANCE_HOST=10.10.10.10
 NOVA_HOST=10.10.10.10
-NEUTRON_HOST=10.10.10.10
 HEAT_HOST=10.10.10.10
 MONGO_HOST=10.10.10.10
 CEIL_HOST=10.10.10.10
 MYSQLHOST=10.10.10.10
 REGION1=RegionOne
+
+CMP1_MANAGEMENT_INTERFACE_IP_ADDRESS=10.10.10.11
+NEUTRON_HOST=$CMP1_MANAGEMENT_INTERFACE_IP_ADDRESS
 NET_OVERLAY_INTERFACE_IP_ADDRESS=10.10.11.11
 NET_PROVIDER_INTERFACE_NAME=eth2
 
@@ -40,7 +42,10 @@ add-apt-repository cloud-archive:mitaka -y
 
 #apt-get update && apt-get dist-upgrade -y
 apt-get update -y
-apt-get -y install crudini curl
+apt-get -y install crudini curl \
+mariadb-client-5.* \
+python-mysqldb
+
 
 cat <<EOF > /admin-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
