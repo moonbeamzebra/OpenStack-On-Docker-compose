@@ -44,7 +44,8 @@ add-apt-repository cloud-archive:mitaka -y
 apt-get update -y
 apt-get -y install crudini curl \
 mariadb-client-5.* \
-python-mysqldb
+python-mysqldb \
+python-keystoneclient
 
 
 cat <<EOF > /admin-openrc.sh
