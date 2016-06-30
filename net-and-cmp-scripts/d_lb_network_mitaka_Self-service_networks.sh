@@ -45,7 +45,7 @@ apt-get update -y
 apt-get -y install crudini curl \
 mariadb-client-5.* \
 python-mysqldb \
-python-keystoneclient
+python-openstackclient
 
 
 cat <<EOF > /admin-openrc.sh
