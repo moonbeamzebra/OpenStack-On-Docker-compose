@@ -25,7 +25,7 @@ nova boot \
 --nic net-id=$(neutron net-show -f value -F id private) \
 --security-group ALL \
 --key-name mykey \
---user-data user_data_ubuntu.txt \
+--user-data ../user_data_ubuntu.txt \
 c1
 
 neutron floatingip-create public
@@ -41,7 +41,7 @@ nova boot \
 --nic net-id=$(neutron net-show -f value -F id private) \
 --security-group ALL \
 --key-name mykey \
---user-data user_data_ubuntu.txt \
+--user-data ../user_data_ubuntu.txt \
 u1
 
 neutron floatingip-create public
@@ -49,4 +49,3 @@ neutron floatingip-create public
 #nova floating-ip-associate private-instance-u {FLOATING_IP}
 
 nova list
-
