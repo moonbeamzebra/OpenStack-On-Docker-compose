@@ -82,7 +82,7 @@ crudini --set /etc/nova/nova.conf vnc vncserver_listen 0.0.0.0
 crudini --set /etc/nova/nova.conf vnc vncserver_proxyclient_address $CMP1_MANAGEMENT_INTERFACE_IP_ADDRESS
 crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://$NOVA_HOST:6080/vnc_auto.html
 
-crudini --set /etc/nova/nova.conf glance api_servers = http://$GLANCE_HOST:9292
+crudini --set /etc/nova/nova.conf glance api_servers http://$GLANCE_HOST:9292
 
 crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 
