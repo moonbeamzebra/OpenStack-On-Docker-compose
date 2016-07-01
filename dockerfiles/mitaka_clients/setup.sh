@@ -35,6 +35,6 @@ cp /home/osu/demo-openrc.sh /
 chown osu:osu /home/osu/demo-openrc.sh
 
 cd /home/osu
-git clone https://github.com/moonbeamzebra/OpenStack-On-Docker-compose.git
+git clone -b mitaka-lb https://github.com/moonbeamzebra/OpenStack-On-Docker-compose.git
 chown -R osu: OpenStack-On-Docker-compose
 cd -
