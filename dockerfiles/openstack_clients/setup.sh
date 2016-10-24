@@ -8,7 +8,6 @@ cat <<EOF > /home/osu/admin-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=admin
-export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=$ADMIN_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:35357/v3
@@ -23,7 +22,6 @@ cat <<EOF > /home/osu/demo-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=demo
-export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
 export OS_PASSWORD=$DEMO_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:5000/v3

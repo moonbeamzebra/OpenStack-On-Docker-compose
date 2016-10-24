@@ -10,7 +10,6 @@ cat <<EOF > /admin-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=admin
-export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=$ADMIN_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:35357/v3
@@ -22,7 +21,6 @@ cat <<EOF > /demo-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=demo
-export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
 export OS_PASSWORD=$DEMO_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:5000/v3
@@ -38,7 +36,6 @@ sed -i 's/v2.0"/v3"/' /etc/openstack-dashboard/local_settings.py
 sed -i 's/OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"/OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"/' /etc/openstack-dashboard/local_settings.py
 
 
-#sed -i 's/#OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = False/OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True/' /etc/openstack-dashboard/local_settings.py
 echo 'OPENSTACK_API_VERSIONS = {
     "identity": 3,
     "image": 2,

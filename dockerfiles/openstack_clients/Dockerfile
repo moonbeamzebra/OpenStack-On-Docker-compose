@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y install ssh \
                                          git \
+                                         vim \
                                          python-heatclient \
 					 python-ceilometerclient
 

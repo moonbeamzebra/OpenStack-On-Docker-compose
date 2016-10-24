@@ -1,8 +1,8 @@
-FROM mariadb:5
+FROM mariadb:10
 
-ADD mysqld_openstack.cnf /etc/mysql/conf.d/mysqld_openstack.cnf
+COPY 99-openstack.cnf /etc/mysql/mariadb.conf.d/99-openstack.cnf
 
-ADD setup.sh /tmp/setup.sh 
+COPY setup.sh /tmp/setup.sh 
 
 RUN chmod +x /tmp/setup.sh
 

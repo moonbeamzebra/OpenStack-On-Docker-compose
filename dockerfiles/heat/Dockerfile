@@ -1,4 +1,4 @@
-FROM openstack-base
+FROM newton-base
 
 ENV DEBIAN_FRONTEND noninteractive
 

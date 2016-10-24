@@ -10,7 +10,6 @@ cat <<EOF > /admin-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=admin
-export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=$ADMIN_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:35357/v3
@@ -22,7 +21,6 @@ cat <<EOF > /demo-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=demo
-export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
 export OS_PASSWORD=$DEMO_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:5000/v3
@@ -91,14 +89,15 @@ crudini --set /etc/heat/heat.conf keystone_authtoken project_name service
 crudini --set /etc/heat/heat.conf keystone_authtoken username heat
 crudini --set /etc/heat/heat.conf keystone_authtoken password $HEAT_PASS
 
-crudini --set /etc/heat/heat.conf trustee auth_uri http://$KEYSTONE_HOST:5000
+crudini --set /etc/heat/heat.conf trustee auth_type password 
 crudini --set /etc/heat/heat.conf trustee auth_url http://$KEYSTONE_HOST:35357
-crudini --set /etc/heat/heat.conf trustee auth_plugin password
-crudini --set /etc/heat/heat.conf trustee project_domain_name default
-crudini --set /etc/heat/heat.conf trustee user_domain_name default
-crudini --set /etc/heat/heat.conf trustee project_name service
 crudini --set /etc/heat/heat.conf trustee username heat
 crudini --set /etc/heat/heat.conf trustee password $HEAT_PASS
+crudini --set /etc/heat/heat.conf trustee user_domain_name default
+#crudini --set /etc/heat/heat.conf trustee auth_uri http://$KEYSTONE_HOST:5000
+#crudini --set /etc/heat/heat.conf trustee auth_plugin password
+#crudini --set /etc/heat/heat.conf trustee project_domain_name default
+#crudini --set /etc/heat/heat.conf trustee project_name service
 
 crudini --set /etc/heat/heat.conf clients_keystone auth_uri http://$KEYSTONE_HOST:5000
 

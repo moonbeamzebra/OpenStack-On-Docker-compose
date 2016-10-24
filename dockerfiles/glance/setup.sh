@@ -10,7 +10,6 @@ cat <<EOF > /admin-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=admin
-export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=$ADMIN_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:35357/v3
@@ -22,7 +21,6 @@ cat <<EOF > /demo-openrc.sh
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_NAME=demo
-export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
 export OS_PASSWORD=$DEMO_PASS
 export OS_AUTH_URL=http://$KEYSTONE_HOST:5000/v3
@@ -33,7 +31,8 @@ EOF
 
 source /admin-openrc.sh
 
-echo "CREATE DATABASE glance;
+echo "DROP DATABASE IF EXISTS glance;
+CREATE DATABASE glance;
 GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '$GLANCE_DBPASS';
 GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '$GLANCE_DBPASS';
 FLUSH PRIVILEGES;" | mysql --user=root --password=$MYSQL_ROOT_PASSWORD -h $MYSQLHOST -P 3306
@@ -77,8 +76,9 @@ crudini --set /etc/glance/glance-api.conf glance_store stores file,http
 crudini --set /etc/glance/glance-api.conf glance_store default_store file
 crudini --set /etc/glance/glance-api.conf glance_store filesystem_store_datadir /var/lib/glance/images/
 
+# Next 5 for ceilometer
 crudini --set /etc/glance/glance-api.conf DEFAULT rpc_backend rabbit
-crudini --set /etc/glance/glance-api.conf DEFAULT verbose True
+#crudini --set /etc/glance/glance-api.conf DEFAULT verbose True
 
 crudini --set /etc/glance/glance-api.conf oslo_messaging_notifications driver messagingv2
 
@@ -102,8 +102,9 @@ crudini --set /etc/glance/glance-registry.conf keystone_authtoken password $GLAN
 
 crudini --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
 
+# Next 5 for ceilometer
 crudini --set /etc/glance/glance-registry.conf DEFAULT rpc_backend rabbit
-crudini --set /etc/glance/glance-registry.conf DEFAULT verbose True
+#crudini --set /etc/glance/glance-registry.conf DEFAULT verbose True
 
 crudini --set /etc/glance/glance-registry.conf oslo_messaging_notifications driver messagingv2
 
